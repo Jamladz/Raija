@@ -51,42 +51,56 @@
     <option value="">اختر الولاية</option>
     <option value="الجزائر">الجزائر</option>
     <option value="وهران">وهران</option>
+    <option value="قسنطينة">قسنطينة</option>
     <option value="سطيف">سطيف</option>
-    <!-- أضف المزيد حسب الحاجة -->
   </select>
 
   <label>البلدية:</label>
-  <input type="text" id="commune" placeholder="اكتب البلدية">
+  <input type="text" id="commune" placeholder="أدخل البلدية">
 
-  <button onclick="submitOrder()">إرسال الطلب</button>
+  <button onclick="sendOrder()">إرسال الطلب</button>
 
-  <p id="response" style="margin-top: 15px; color: green;"></p>
+  <p id="status" style="margin-top: 10px; font-weight: bold;"></p>
 
   <script>
-    async function submitOrder() {
+    async function sendOrder() {
       const quantity = document.getElementById("quantity").value;
       const note = document.getElementById("note").value;
       const phone = document.getElementById("phone").value;
       const wilaya = document.getElementById("wilaya").value;
       const commune = document.getElementById("commune").value;
+      const status = document.getElementById("status");
 
       if (quantity < 5) {
-        alert("أقل كمية للطلب هي 5.");
+        status.innerText = "❌ الحد الأدنى للكمية هو 5.";
         return;
       }
 
-      const data = { quantity, note, phone, wilaya, commune };
+      if (!phone || !wilaya || !commune) {
+        status.innerText = "❌ يرجى ملء جميع الحقول المطلوبة.";
+        return;
+      }
 
-      const response = await fetch("https://script.google.com/macros/s/AKfycbyA_0zCphW-8cLHUVDh9FTZidobtSjM6AUooInoHfBjpvm-M4aienE3zwa3z1idUd8s/exec", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json"
+      status.innerText = "⏳ جاري إرسال الطلب...";
+
+      try {
+        const response = await fetch("https://script.google.com/macros/s/AKfycbyA_0zCphW-8cLHUVDh9FTZidobtSjM6AUooInoHfBjpvm-M4aienE3zwa3z1idUd8s/exec", {
+          method: "POST",
+          body: JSON.stringify({ quantity, note, phone, wilaya, commune }),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+
+        if (response.ok) {
+          status.innerText = "✅ تم إرسال الطلب بنجاح!";
+        } else {
+          status.innerText = "❌ حدث خطأ أثناء الإرسال.";
         }
-      });
-
-      const result = await response.text();
-      document.getElementById("response").innerText = result;
+      } catch (error) {
+        status.innerText = "❌ تعذر الاتصال بالخادم.";
+        console.error(error);
+      }
     }
   </script>
 
