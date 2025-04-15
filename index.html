@@ -1,324 +1,94 @@
-٢<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="متجر Jamla الإلكتروني - أفضل الملابس الرجالية والأحذية بأسعار تنافسية">
-    <meta name="keywords" content="ملابس رجالية, أحذية, موضة, تسوق إلكتروني, جملة">
-    <title>المنتجات الرائجة - Jamla</title>
-    <style>
-        :root {
-            --primary-color: #FFD700; /* أصفر ذهبي */
-            --secondary-color: #FFF8E1;
-            --accent-color: #FFC107;
-            --text-color: #333;
-            --light-text: #777;
-            --bg-color: #FFF;
-            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --glass-effect: rgba(255, 255, 255, 0.2);
-        }
-        
-        body {
-            font-family: 'Tajawal', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
-        
-        .container {
-            max-width: 100%;
-            overflow-x: hidden;
-            padding-bottom: 60px;
-        }
-        
-        /* هيدر التطبيق */
-        .app-header {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 10;
-        }
-        
-        .app-header h1 {
-            margin: 0;
-            color: white;
-            font-size: 24px;
-            font-weight: 700;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-        }
-        
-        .back-button {
-            position: absolute;
-            right: 15px;
-            top: 15px;
-            color: white;
-            font-size: 20px;
-            text-decoration: none;
-        }
-        
-        /* قسم المنتجات */
-        .products-section {
-            padding: 10px;
-        }
-        
-        .section-title {
-            padding: 15px;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--secondary-color);
-            margin-top: 10px;
-        }
-        
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .product-card {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-        }
-        
-        .product-image {
-            height: 150px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-        
-        .product-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        
-        .product-info {
-            padding: 10px;
-        }
-        
-        .product-title {
-            font-size: 14px;
-            margin: 0 0 5px 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .product-price {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin: 0;
-        }
-        
-        .old-price {
-            text-decoration: line-through;
-            font-size: 12px;
-            color: var(--light-text);
-            margin-right: 5px;
-        }
-        
-        .view-product-btn {
-            display: block;
-            width: 100%;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: bold;
-            border-radius: 4px;
-            margin-top: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            text-align: center;
-            text-decoration: none;
-        }
-        
-        .view-product-btn:hover {
-            background-color: var(--accent-color);
-        }
-        
-        /* زر العودة للأعلى */
-        .back-to-top {
-            position: fixed;
-            bottom: 70px;
-            left: 15px;
-            background-color: var(--primary-color);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            z-index: 100;
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>طلب سروال</title>
+  <style>
+    body {
+      font-family: Arial;
+      direction: rtl;
+      max-width: 400px;
+      margin: 30px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #aaa;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- هيدر التطبيق -->
-        <header class="app-header">
-            <a href="https://jamladz.github.io/Home/" class="back-button">
-                <i class="fas fa-arrow-right"></i>
-            </a>
-            <h1>المنتجات الرائجة</h1>
-        </header>
-        
-        <!-- قسم المنتجات -->
-        <div class="products-section">
-            <div class="section-title">
-                <span>أفضل المنتجات مبيعاً</span>
-                <span style="font-size: 14px; color: var(--light-text);">24 منتج</span>
-            </div>
-            
-            <div class="products-grid">
-                <!-- منتج 1 -->
-                <div class="product-card">
-                    <div class="product-image" style="background-image: url('https://i.suar.me/j5yqr/l')">
-                        <span class="product-badge">الأكثر مبيعاً</span>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">جاكيت رجالي جلد طبيعي</h3>
-                        <p class="product-price">
-                            <span class="old-price">4500 د.ج</span>
-                            3990 د.ج
-                        </p>
-                        <a href="https://jamladz.github.io/3ardmontaj/" class="view-product-btn">عرض المنتج</a>
-                    </div>
-                </div>
-                
-                <!-- منتج 2 -->
-                <div class="product-card">
-                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')">
-                        <span class="product-badge">جديد</span>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">قميص رجالي قطني</h3>
-                        <p class="product-price">
-                            <span class="old-price">2500 د.ج</span>
-                            1990 د.ج
-                        </p>
-                        <a href="product-details.html" class="view-product-btn">عرض المنتج</a>
-                    </div>
-                </div>
-                
-                <!-- منتج 3 -->
-                <div class="product-card">
-                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1351&q=80')">
-                        <span class="product-badge">خصم 20%</span>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">حذاء رياضي مريح</h3>
-                        <p class="product-price">
-                            <span class="old-price">3800 د.ج</span>
-                            3200 د.ج
-                        </p>
-                        <a href="product-details.html" class="view-product-btn">عرض المنتج</a>
-                    </div>
-                </div>
-                
-                <!-- منتج 4 -->
-                <div class="product-card">
-                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')">
-                        <span class="product-badge">الأكثر طلباً</span>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">بنطال جينز رجالي</h3>
-                        <p class="product-price">
-                            <span class="old-price">3200 د.ج</span>
-                            2800 د.ج
-                        </p>
-                        <a href="product-details.html" class="view-product-btn">عرض المنتج</a>
-                    </div>
-                </div>
-                
-                <!-- منتج 5 -->
-                <div class="product-card">
-                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1539533018447-63fcce2678e4?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80')">
-                        <span class="product-badge">جديد</span>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">بدلة رجالية أنيقة</h3>
-                        <p class="product-price">
-                            <span class="old-price">6500 د.ج</span>
-                            5900 د.ج
-                        </p>
-                        <a href="product-details.html" class="view-product-btn">عرض المنتج</a>
-                    </div>
-                </div>
-                
-                <!-- منتج 6 -->
-                <div class="product-card">
-                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1598033129183-c4f50c736f10?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
-                        <span class="product-badge">جديد</span>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">جاكيت شتوي دافئ</h3>
-                        <p class="product-price">
-                            <span class="old-price">4800 د.ج</span>
-                            4200 د.ج
-                        </p>
-                        <a href="product-details.html" class="view-product-btn">عرض المنتج</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- زر العودة للأعلى -->
-        <a href="#" class="back-to-top">
-            <i class="fas fa-arrow-up"></i>
-        </a>
-    </div>
-    
-    <script>
-        // زر العودة للأعلى
-        document.addEventListener('DOMContentLoaded', function() {
-            const backToTopBtn = document.querySelector('.back-to-top');
-            
-            window.addEventListener('scroll', function() {
-                if (window.pageYOffset > 300) {
-                    backToTopBtn.style.display = 'flex';
-                } else {
-                    backToTopBtn.style.display = 'none';
-                }
-            });
-            
-            backToTopBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
+
+  <h2>طلب سروال</h2>
+
+  <label>الكمية (5 على الأقل):</label>
+  <input type="number" id="quantity" min="5" value="5">
+
+  <label>ملاحظات (الألوان):</label>
+  <textarea id="note" placeholder="مثلاً: 2 أبيض، 3 أسود"></textarea>
+
+  <label>رقم الهاتف:</label>
+  <input type="tel" id="phone" placeholder="مثلاً: 0555XXXXXX">
+
+  <label>الولاية:</label>
+  <select id="wilaya">
+    <option value="">اختر الولاية</option>
+    <option value="الجزائر">الجزائر</option>
+    <option value="وهران">وهران</option>
+    <option value="سطيف">سطيف</option>
+    <!-- أضف المزيد حسب الحاجة -->
+  </select>
+
+  <label>البلدية:</label>
+  <input type="text" id="commune" placeholder="اكتب البلدية">
+
+  <button onclick="submitOrder()">إرسال الطلب</button>
+
+  <p id="response" style="margin-top: 15px; color: green;"></p>
+
+  <script>
+    async function submitOrder() {
+      const quantity = document.getElementById("quantity").value;
+      const note = document.getElementById("note").value;
+      const phone = document.getElementById("phone").value;
+      const wilaya = document.getElementById("wilaya").value;
+      const commune = document.getElementById("commune").value;
+
+      if (quantity < 5) {
+        alert("أقل كمية للطلب هي 5.");
+        return;
+      }
+
+      const data = { quantity, note, phone, wilaya, commune };
+
+      const response = await fetch("https://script.google.com/macros/s/AKfycbyA_0zCphW-8cLHUVDh9FTZidobtSjM6AUooInoHfBjpvm-M4aienE3zwa3z1idUd8s/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      const result = await response.text();
+      document.getElementById("response").innerText = result;
+    }
+  </script>
+
 </body>
 </html>
