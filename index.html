@@ -1,108 +1,1380 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>طلب سروال</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gift Market Pro - NFT Store</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    :root {
+      --primary: #0088cc;
+      --primary-dark: #006699;
+      --secondary: #ff6b6b;
+      --dark: #1a1a2e;
+      --darker: #0d0d1a;
+      --light: #f8f9fa;
+      --gray: #6c757d;
+      --success: #28a745;
+      --warning: #ffc107;
+      --danger: #dc3545;
+      --common: #6c757d;
+      --rare: #007bff;
+      --legendary: #dc3545;
+      --epic: #9c27b0;
+      --border-radius: 16px;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      --transition: all 0.3s ease;
+      --gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    }
+    
     body {
-      font-family: Arial;
-      direction: rtl;
-      max-width: 400px;
-      margin: 30px auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
+      background: linear-gradient(135deg, var(--darker), var(--dark));
+      color: var(--light);
+      min-height: 100vh;
+      padding-bottom: 90px;
     }
-    label {
-      display: block;
-      margin-top: 10px;
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 15px;
     }
-    input, select, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border-radius: 5px;
-      border: 1px solid #aaa;
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    button {
-      background-color: #28a745;
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--primary);
+      padding: 8px;
+    }
+    
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .wallet-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .wallet-btn {
+      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
       color: white;
-      font-weight: bold;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+    
+    .wallet-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 136, 204, 0.3);
+    }
+    
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .tab {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+    
+    .tab.active, .tab:hover {
+      background: var(--primary);
+    }
+    
+    .nft-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .nft-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      position: relative;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .nft-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .nft-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .nft-info {
+      padding: 18px 12px;
+    }
+    
+    .nft-name {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      text-align: center;
+      color: var(--light);
+    }
+    
+    .nft-rarity {
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      display: inline-block;
+      width: 100%;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    
+    .common { background: var(--common); }
+    .rare { background: var(--rare); }
+    .legendary { background: var(--legendary); }
+    
+    .nft-price {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--warning);
+    }
+    
+    .sold-out {
+      background: var(--danger);
+      color: white;
+      text-align: center;
+      padding: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 4px;
+    }
+    
+    .progress-container {
+      padding: 0 5px;
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 12px 0 8px;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    
+    .sold-info {
+      font-size: 0.85rem;
+      text-align: center;
+      color: var(--gray);
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .sold-info span {
+      font-weight: 500;
+    }
+    
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-around;
+      padding: 15px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 100;
+    }
+    
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      color: var(--gray);
+      cursor: pointer;
+      transition: var(--transition);
+      padding: 5px 15px;
+      border-radius: 12px;
+    }
+    
+    .nav-item.active, .nav-item:hover {
+      color: var(--primary);
+    }
+    
+    .nav-item i {
+      font-size: 1.4rem;
+    }
+    
+    .nav-item span {
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+    .coming-soon {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--gray);
+      font-size: 1.2rem;
+    }
+    
+    .market-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+    }
+    
+    .modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .modal-content {
+      background: var(--dark);
+      border-radius: var(--border-radius);
+      width: 90%;
+      max-width: 450px;
+      overflow: hidden;
+      transform: translateY(20px);
+      transition: var(--transition);
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal.active .modal-content {
+      transform: translateY(0);
+    }
+    
+    .modal-header {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .modal-header h2 {
+      font-size: 1.5rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--light);
+      font-size: 1.8rem;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+    
+    .close-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: rotate(90deg);
+    }
+    
+    .modal-body {
+      padding: 25px;
+    }
+    
+    .modal-image {
+      width: 100%;
+      border-radius: var(--border-radius);
+      margin-bottom: 25px;
+      max-height: 280px;
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .modal-details {
+      margin-bottom: 25px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--border-radius);
+      padding: 15px;
+    }
+    
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .detail-label {
+      color: var(--gray);
+    }
+    
+    .detail-value {
+      font-weight: 600;
+    }
+    
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 25px 0;
+      justify-content: center;
+    }
+    
+    .qty-btn {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: white;
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .qty-btn:hover {
+      background: var(--primary);
+      transform: scale(1.1);
+    }
+    
+    .qty-input {
+      width: 70px;
+      text-align: center;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    
+    .modal-buy-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--gradient);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 5px 15px rgba(37, 117, 252, 0.3);
+    }
+    
+    .modal-buy-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(37, 117, 252, 0.5);
+    }
+    
+    .modal-buy-btn:disabled {
+      background: var(--gray);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    .ton-icon {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      background: #0088cc;
+      border-radius: 50%;
+      position: relative;
+    }
+    
+    .ton-icon::after {
+      content: "TON";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 8px;
+      font-weight: bold;
+      color: white;
+    }
+    
+    /* Profile Page Styles */
+    .profile-page {
+      display: none;
+    }
+    
+    .profile-header {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .profile-avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 15px;
+      border: 4px solid var(--primary);
+      box-shadow: 0 0 20px rgba(0, 136, 204, 0.4);
+    }
+    
+    .username-container {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-align: center;
+    }
+    
+    .marquee {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 15s linear infinite;
+    }
+    
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+    
+    .profile-info {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      align-items: center;
+    }
+    
+    .info-label {
+      color: var(--gray);
+      font-size: 0.95rem;
+    }
+    
+    .info-value {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    
+    .referral-section {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .referral-title {
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    
+    .referral-link-container {
+      display: flex;
+      margin-bottom: 15px;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+    }
+    
+    .referral-link {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 12px 15px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-align: right;
+      font-size: 0.9rem;
+    }
+    
+    .copy-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+    
+    .copy-btn:hover {
+      background: var(--primary-dark);
+    }
+    
+    .referral-note {
+      color: var(--warning);
+      font-size: 0.9rem;
       margin-top: 15px;
+      line-height: 1.5;
+    }
+    
+    .wallet-connected {
+      background: var(--success);
+    }
+    
+    .ton-connect-container {
+      width: 100%;
+      margin: 20px 0;
+    }
+    
+    .ton-connect-button {
+      width: 100%;
+      background: var(--gradient);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 5px 15px rgba(37, 117, 252, 0.3);
+    }
+    
+    .ton-connect-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37, 117, 252, 0.5);
+    }
+    
+    .ton-connect-button.connected {
+      background: var(--success);
+    }
+    
+    .wallet-status {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .connected-status {
+      color: var(--success);
+    }
+    
+    .disconnected-status {
+      color: var(--danger);
+    }
+    
+    .market-page {
+      display: none;
+    }
+    
+    .market-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .market-header h2 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    .market-feature {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      margin-bottom: 25px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+    
+    .feature-title {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--light);
+    }
+    
+    .feature-description {
+      color: var(--gray);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 25px 0;
+    }
+    
+    .countdown-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 60px;
+    }
+    
+    .countdown-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .countdown-label {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+    
+    @media (max-width: 768px) {
+      .nft-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+      
+      .wallet-section {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 10px;
+      }
+      
+      .logo h1 {
+        font-size: 1.5rem;
+      }
+      
+      .modal-content {
+        width: 95%;
+      }
+      
+      .countdown {
+        gap: 10px;
+      }
+      
+      .countdown-item {
+        min-width: 50px;
+      }
+      
+      .countdown-value {
+        font-size: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .nft-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .tabs {
+        justify-content: center;
+      }
+      
+      .referral-link-container {
+        flex-direction: column;
+      }
+      
+      .referral-link {
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+      }
+      
+      .copy-btn {
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+      }
+      
+      .detail-row {
+        flex-direction: column;
+        gap: 5px;
+      }
+      
+      .countdown {
+        gap: 8px;
+      }
+      
+      .countdown-item {
+        min-width: 45px;
+      }
+      
+      .countdown-value {
+        font-size: 1.3rem;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M23,16V4C23,2.9 22.1,2 21,2H3A2,2 0 0,0 1,4V16A2,2 0 0,0 3,18H4V20H6V18H18V20H20V18H21A2,2 0 0,0 23,16M21,16H3V4H21V16Z'/%3E%3C/svg%3E" alt="Gift">
+        <h1>Gift Market Pro</h1>
+      </div>
+      <div class="wallet-section">
+        <div id="ton-connect-button"></div>
+      </div>
+    </header>
 
-  <h2>طلب سروال</h2>
+    <!-- Shop Page -->
+    <div id="shop-page" class="page">
+      <div class="tabs">
+        <div class="tab active" data-filter="all">All</div>
+        <div class="tab" data-filter="common">Common</div>
+        <div class="tab" data-filter="rare">Rare</div>
+        <div class="tab" data-filter="legendary">Legendary</div>
+      </div>
 
-  <label>الكمية (5 على الأقل):</label>
-  <input type="number" id="quantity" min="5" value="5">
+      <div class="nft-grid" id="nft-grid">
+        <!-- NFTs will be populated by JavaScript -->
+      </div>
+    </div>
 
-  <label>ملاحظات (الألوان):</label>
-  <textarea id="note" placeholder="مثلاً: 2 أبيض، 3 أسود"></textarea>
+    <!-- Profile Page -->
+    <div id="profile-page" class="page profile-page">
+      <div class="profile-header">
+        <img src="https://via.placeholder.com/100/0088cc/ffffff?text=U" class="profile-avatar" id="profile-avatar" alt="Profile">
+        <div class="username-container">
+          <h2 id="profile-username">Telegram User</h2>
+        </div>
+      </div>
+      
+      <div class="ton-connect-container">
+        <button class="ton-connect-button" id="ton-connect-button-profile">
+          <span class="ton-icon"></span> Connect TON Wallet
+        </button>
+        <div class="wallet-status" id="wallet-status">
+          <span class="disconnected-status">Wallet not connected</span>
+        </div>
+      </div>
+      
+      <div class="referral-section">
+        <h3 class="referral-title">Referral Program</h3>
+        <div class="referral-link-container">
+          <div class="referral-link" id="referral-link">https://t.me/GiftMarketProBot?start=ref_username</div>
+          <button class="copy-btn" id="copy-referral-btn">
+            <i class="fas fa-copy"></i> Copy
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Market Page -->
+    <div id="market-page" class="page market-page">
+      <div class="market-header">
+        <h2>Marketplace</h2>
+        <p>Coming soon! Trade NFTs with other collectors</p>
+      </div>
+      
+      <div class="market-feature">
+        <div class="feature-icon">
+          <i class="fas fa-store"></i>
+        </div>
+        <h3 class="feature-title">NFT Marketplace</h3>
+        <p class="feature-description">Our marketplace is under development and will launch soon. You'll be able to buy, sell and trade NFTs with other collectors.</p>
+        
+        <div class="countdown">
+          <div class="countdown-item">
+            <div class="countdown-value" id="days">00</div>
+            <div class="countdown-label">Days</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-value" id="hours">00</div>
+            <div class="countdown-label">Hours</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-value" id="minutes">00</div>
+            <div class="countdown-label">Minutes</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-value" id="seconds">00</div>
+            <div class="countdown-label">Seconds</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="market-feature">
+        <div class="feature-icon">
+          <i class="fas fa-coins"></i>
+        </div>
+        <h3 class="feature-title">TON Coin Integration</h3>
+        <p class="feature-description">All transactions will be powered by TON Coin. You'll be able to buy and sell NFTs using your TON wallet.</p>
+      </div>
+      
+      <div class="market-feature">
+        <div class="feature-icon">
+          <i class="fas fa-exchange-alt"></i>
+        </div>
+        <h3 class="feature-title">Secure Trading</h3>
+        <p class="feature-description">Trade with confidence using our secure escrow system. Your NFTs are safe until the transaction is complete.</p>
+      </div>
+    </div>
+  </div>
 
-  <label>رقم الهاتف:</label>
-  <input type="tel" id="phone" placeholder="مثلاً: 0555XXXXXX">
+  <div class="bottom-nav">
+    <div class="nav-item active" data-page="shop">
+      <i class="fas fa-gift"></i>
+      <span>Store</span>
+    </div>
+    <div class="nav-item" data-page="market">
+      <i class="fas fa-store"></i>
+      <span>Market</span>
+    </div>
+    <div class="nav-item" data-page="profile">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </div>
+  </div>
 
-  <label>الولاية:</label>
-  <select id="wilaya">
-    <option value="">اختر الولاية</option>
-    <option value="الجزائر">الجزائر</option>
-    <option value="وهران">وهران</option>
-    <option value="قسنطينة">قسنطينة</option>
-    <option value="سطيف">سطيف</option>
-  </select>
-
-  <label>البلدية:</label>
-  <input type="text" id="commune" placeholder="أدخل البلدية">
-
-  <button onclick="sendOrder()">إرسال الطلب</button>
-
-  <p id="status" style="margin-top: 10px; font-weight: bold;"></p>
+  <div class="modal" id="nft-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-nft-name">Common Gift #1</h2>
+        <button class="close-btn" id="close-modal">×</button>
+      </div>
+      <div class="modal-body">
+        <img src="" alt="NFT" class="modal-image" id="modal-nft-image">
+        <div class="modal-details">
+          <div class="detail-row">
+            <span class="detail-label">Rarity:</span>
+            <span class="detail-value" id="modal-nft-rarity">Common</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Price:</span>
+            <span class="detail-value">
+              <span class="ton-icon"></span>
+              <span id="price-value">0.1</span> TON
+            </span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Total:</span>
+            <span class="detail-value" id="modal-nft-quantity">1,000</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Sold:</span>
+            <span class="detail-value" id="modal-nft-sold">236</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Available:</span>
+            <span class="detail-value" id="modal-nft-available">764</span>
+          </div>
+        </div>
+        
+        <div class="quantity-selector">
+          <button class="qty-btn" id="qty-minus">-</button>
+          <input type="text" class="qty-input" value="1" id="nft-quantity">
+          <button class="qty-btn" id="qty-plus">+</button>
+        </div>
+        
+        <button class="modal-buy-btn" id="buy-btn">
+          <i class="fas fa-shopping-cart"></i>
+          Buy Now
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script>
-    async function sendOrder() {
-      const quantity = document.getElementById("quantity").value;
-      const note = document.getElementById("note").value;
-      const phone = document.getElementById("phone").value;
-      const wilaya = document.getElementById("wilaya").value;
-      const commune = document.getElementById("commune").value;
-      const status = document.getElementById("status");
-
-      if (quantity < 5) {
-        status.innerText = "❌ الحد الأدنى للكمية هو 5.";
-        return;
+    // Updated NFT data with the fifth gift having 236 sold and 764 available
+    const nfts = [
+      {
+        id: 1,
+        name: "Common Gift #1",
+        image: "https://i.suar.me/wpW24/l",
+        price: 0.1,
+        total: 1000,
+        sold: 236,
+        rarity: "Common",
+        rarityClass: "common"
+      },
+      {
+        id: 2,
+        name: "Common Gift #2",
+        image: "https://i.suar.me/VzWvK/l",
+        price: 0.15,
+        total: 20000,
+        sold: 10347,
+        rarity: "Common",
+        rarityClass: "common"
+      },
+      {
+        id: 3,
+        name: "Rare Gift",
+        image: "https://i.suar.me/gP8A5/l",
+        price: 0.5,
+        total: 10000,
+        sold: 3465,
+        rarity: "Rare",
+        rarityClass: "rare"
+      },
+      {
+        id: 4,
+        name: "Legendary Gift #1",
+        image: "https://i.suar.me/7aqdj/l",
+        price: 5,
+        total: 3000,
+        sold: 1275,
+        rarity: "Legendary",
+        rarityClass: "legendary"
+      },
+      {
+        id: 5,
+        name: "Legendary Gift #2",
+        image: "https://i.suar.me/xpLaV/l",
+        price: 20,
+        total: 1000,
+        sold: 236,
+        rarity: "Legendary",
+        rarityClass: "legendary"
       }
+    ];
 
-      if (!phone || !wilaya || !commune) {
-        status.innerText = "❌ يرجى ملء جميع الحقول المطلوبة.";
-        return;
-      }
+    // DOM elements
+    const nftGrid = document.getElementById('nft-grid');
+    const modal = document.getElementById('nft-modal');
+    const closeModal = document.getElementById('close-modal');
+    const modalImage = document.getElementById('modal-nft-image');
+    const modalName = document.getElementById('modal-nft-name');
+    const modalRarity = document.getElementById('modal-nft-rarity');
+    const modalPrice = document.getElementById('price-value');
+    const modalQuantity = document.getElementById('modal-nft-quantity');
+    const modalSold = document.getElementById('modal-nft-sold');
+    const modalAvailable = document.getElementById('modal-nft-available');
+    const qtyInput = document.getElementById('nft-quantity');
+    const qtyPlus = document.getElementById('qty-plus');
+    const qtyMinus = document.getElementById('qty-minus');
+    const buyBtn = document.getElementById('buy-btn');
+    const navItems = document.querySelectorAll('.nav-item');
+    const tabs = document.querySelectorAll('.tab');
+    const shopPage = document.getElementById('shop-page');
+    const profilePage = document.getElementById('profile-page');
+    const marketPage = document.getElementById('market-page');
+    const profileUsername = document.getElementById('profile-username');
+    const profileAvatar = document.getElementById('profile-avatar');
+    const referralLink = document.getElementById('referral-link');
+    const copyReferralBtn = document.getElementById('copy-referral-btn');
+    const walletStatus = document.getElementById('wallet-status');
+    const tonConnectButtonProfile = document.getElementById('ton-connect-button-profile');
+    const countdownDays = document.getElementById('days');
+    const countdownHours = document.getElementById('hours');
+    const countdownMinutes = document.getElementById('minutes');
+    const countdownSeconds = document.getElementById('seconds');
 
-      status.innerText = "⏳ جاري إرسال الطلب...";
+    // TON Connect variables
+    let tonConnectUI;
+    let wallet = null;
+    const recipientAddress = 'UQCTZAMbXoN5T43K9gJXH8GYWBmIstXrUrdoV9kv3btN1Ad3';
+    
+    // Format numbers with commas
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
-      try {
-        const response = await fetch("https://script.google.com/macros/s/AKfycbyA_0zCphW-8cLHUVDh9FTZidobtSjM6AUooInoHfBjpvm-M4aienE3zwa3z1idUd8s/exec", {
-          method: "POST",
-          body: JSON.stringify({ quantity, note, phone, wilaya, commune }),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
+    // Render NFTs to the grid
+    function renderNFTs(nftList) {
+      nftGrid.innerHTML = '';
+      
+      nftList.forEach(nft => {
+        const available = nft.total - nft.sold;
+        const isSoldOut = available <= 0;
+        const percentageSold = (nft.sold / nft.total) * 100;
+        
+        const nftCard = document.createElement('div');
+        nftCard.className = 'nft-card';
+        nftCard.innerHTML = `
+          <img src="${nft.image}" alt="${nft.name}" class="nft-image">
+          <div class="nft-info">
+            <h3 class="nft-name">${nft.name}</h3>
+            <div class="nft-rarity ${nft.rarityClass}">${nft.rarity}</div>
+            <div class="nft-price">
+              <span class="ton-icon"></span>
+              ${nft.price} TON
+            </div>
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: ${percentageSold}%"></div>
+              </div>
+              <div class="sold-info">
+                <span>Sold: ${formatNumber(nft.sold)}</span>
+                <span>Available: ${formatNumber(available)}</span>
+              </div>
+            </div>
+            ${isSoldOut ? '<div class="sold-out">Sold Out</div>' : ''}
+          </div>
+        `;
+        
+        nftCard.addEventListener('click', () => openModal(nft));
+        nftGrid.appendChild(nftCard);
+      });
+    }
 
-        if (response.ok) {
-          status.innerText = "✅ تم إرسال الطلب بنجاح!";
-        } else {
-          status.innerText = "❌ حدث خطأ أثناء الإرسال.";
-        }
-      } catch (error) {
-        status.innerText = "❌ تعذر الاتصال بالخادم.";
-        console.error(error);
+    // Open NFT modal
+    function openModal(nft) {
+      const available = nft.total - nft.sold;
+      const isSoldOut = available <= 0;
+      
+      modalImage.src = nft.image;
+      modalName.textContent = nft.name;
+      modalRarity.textContent = nft.rarity;
+      modalPrice.textContent = nft.price;
+      modalQuantity.textContent = formatNumber(nft.total);
+      modalSold.textContent = formatNumber(nft.sold);
+      modalAvailable.textContent = formatNumber(available);
+      qtyInput.value = 1;
+      
+      // Disable buy button if sold out or wallet not connected
+      buyBtn.disabled = isSoldOut || !wallet;
+      buyBtn.textContent = isSoldOut ? "Sold Out" : "Buy Now";
+      
+      modal.classList.add('active');
+    }
+
+    // Close modal
+    function closeModalFunc() {
+      modal.classList.remove('active');
+    }
+
+    // Filter NFTs by rarity
+    function filterNFTs(rarity) {
+      if (rarity === 'all') {
+        renderNFTs(nfts);
+      } else {
+        const filtered = nfts.filter(nft => nft.rarity.toLowerCase() === rarity);
+        renderNFTs(filtered);
       }
     }
-  </script>
 
+    // Initialize TON Connect
+    function initTonConnect() {
+      tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+        manifestUrl: 'https://jamladz.github.io/Jamla/tonconnect-manifest.json',
+        buttonRootId: 'ton-connect-button'
+      });
+      
+      tonConnectUI.onStatusChange(userWallet => {
+        wallet = userWallet;
+        updateWalletStatus();
+        
+        if (wallet) {
+          // Update UI with wallet info
+          const address = wallet.account.address;
+          const shortAddress = address.substring(0, 6) + '...' + address.substring(address.length - 4);
+          walletStatus.innerHTML = `<span class="connected-status">✅ Wallet connected: ${shortAddress}</span>`;
+          
+          // Simulate fetching balance (in a real app, you would fetch from blockchain)
+          const balance = (Math.random() * 100).toFixed(2);
+          
+          // Update profile button
+          tonConnectButtonProfile.textContent = 'Wallet Connected';
+          tonConnectButtonProfile.classList.add('connected');
+        } else {
+          // Reset wallet info
+          walletStatus.innerHTML = '<span class="disconnected-status">Wallet not connected</span>';
+          tonConnectButtonProfile.textContent = 'Connect TON Wallet';
+          tonConnectButtonProfile.classList.remove('connected');
+        }
+      });
+    }
+    
+    // Update wallet connection status
+    function updateWalletStatus() {
+      if (wallet) {
+        buyBtn.disabled = false;
+      } else {
+        buyBtn.disabled = true;
+      }
+    }
+
+    // Send transaction
+    async function sendTransaction(amount) {
+      if (!wallet) return;
+      
+      const tx = {
+        validUntil: Math.floor(Date.now() / 1000) + 600,
+        messages: [
+          {
+            address: recipientAddress,
+            amount: (amount * 1000000000).toString() // Convert TON to nanoton
+          }
+        ]
+      };
+
+      try {
+        const result = await tonConnectUI.sendTransaction(tx);
+        alert(`✅ Payment sent successfully! (${amount} TON)`);
+        closeModalFunc();
+      } catch (error) {
+        alert(`❌ Payment failed: ${error.message}`);
+      }
+    }
+
+    // Detect Telegram user
+    function detectTelegramUser() {
+      if (window.Telegram && window.Telegram.WebApp) {
+        const user = window.Telegram.WebApp.initDataUnsafe.user;
+        if (user) {
+          // Update profile
+          const username = user.username ? `@${user.username}` : 'Telegram User';
+          profileUsername.textContent = username;
+          
+          // Generate referral link
+          const refLink = `https://t.me/GiftMarketProBot?start=ref_${user.username || 'user'}`;
+          referralLink.textContent = refLink;
+          
+          // Set avatar if available
+          if (user.photo_url) {
+            profileAvatar.src = user.photo_url;
+          }
+          
+          // Add marquee effect for Telegram username
+          profileUsername.classList.add('marquee');
+          
+          return true;
+        }
+      }
+      return false;
+    }
+    
+    // Market countdown timer
+    function startCountdown() {
+      const launchDate = new Date();
+      launchDate.setDate(launchDate.getDate() + 14);
+      
+      function updateCountdown() {
+        const now = new Date();
+        const diff = launchDate - now;
+        
+        if (diff <= 0) {
+          clearInterval(timer);
+          return;
+        }
+        
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        countdownDays.textContent = days.toString().padStart(2, '0');
+        countdownHours.textContent = hours.toString().padStart(2, '0');
+        countdownMinutes.textContent = minutes.toString().padStart(2, '0');
+        countdownSeconds.textContent = seconds.toString().padStart(2, '0');
+      }
+      
+      updateCountdown();
+      const timer = setInterval(updateCountdown, 1000);
+    }
+
+    // Initialize the page
+    function init() {
+      // Render NFTs
+      renderNFTs(nfts);
+      
+      // Initialize TON Connect
+      initTonConnect();
+      
+      // Modal events
+      closeModal.addEventListener('click', closeModalFunc);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModalFunc();
+        }
+      });
+      
+      // Quantity selector
+      qtyPlus.addEventListener('click', () => {
+        qtyInput.value = parseInt(qtyInput.value) + 1;
+      });
+      
+      qtyMinus.addEventListener('click', () => {
+        if (parseInt(qtyInput.value) > 1) {
+          qtyInput.value = parseInt(qtyInput.value) - 1;
+        }
+      });
+      
+      // Buy button
+      buyBtn.addEventListener('click', () => {
+        const quantity = parseInt(qtyInput.value);
+        const nftPrice = parseFloat(modalPrice.textContent);
+        const totalPrice = quantity * nftPrice;
+        
+        if (!wallet) {
+          alert('Please connect your wallet first!');
+          return;
+        }
+        
+        sendTransaction(totalPrice);
+      });
+      
+      // Bottom navigation
+      navItems.forEach(item => {
+        item.addEventListener('click', () => {
+          // Remove active class from all
+          navItems.forEach(i => i.classList.remove('active'));
+          
+          // Add active class to clicked
+          item.classList.add('active');
+          
+          const page = item.getAttribute('data-page');
+          
+          if (page === 'shop') {
+            shopPage.style.display = 'block';
+            profilePage.style.display = 'none';
+            marketPage.style.display = 'none';
+          } else if (page === 'profile') {
+            shopPage.style.display = 'none';
+            profilePage.style.display = 'block';
+            marketPage.style.display = 'none';
+          } else if (page === 'market') {
+            shopPage.style.display = 'none';
+            profilePage.style.display = 'none';
+            marketPage.style.display = 'block';
+          }
+        });
+      });
+      
+      // Rarity tabs
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all
+          tabs.forEach(t => t.classList.remove('active'));
+          
+          // Add active class to clicked
+          tab.classList.add('active');
+          
+          const filter = tab.getAttribute('data-filter');
+          filterNFTs(filter);
+        });
+      });
+      
+      // Profile TON Connect button
+      tonConnectButtonProfile.addEventListener('click', () => {
+        if (tonConnectUI) {
+          tonConnectUI.openModal();
+        }
+      });
+      
+      // Copy referral link
+      copyReferralBtn.addEventListener('click', () => {
+        const link = referralLink.textContent;
+        navigator.clipboard.writeText(link)
+          .then(() => {
+            alert('Referral link copied!');
+          })
+          .catch(err => {
+            console.error('Failed to copy: ', err);
+          });
+      });
+      
+      // Detect Telegram user
+      if (detectTelegramUser()) {
+        console.log('Telegram user detected');
+      }
+      
+      // Start market countdown
+      startCountdown();
+    }
+
+    // Initialize when DOM is loaded
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
 </body>
 </html>
