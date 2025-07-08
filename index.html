@@ -40,17 +40,16 @@
       background: linear-gradient(135deg, var(--darker), var(--dark));
       color: var(--light);
       min-height: 100vh;
-      padding-top: 100px; /* Added for fixed header */
+      padding-top: 100px;
       padding-bottom: 90px;
     }
     
     .container {
-      max-width: 1200px;
+      max-width: 100%;
       margin: 0 auto;
       padding: 15px;
     }
     
-    /* Fixed Header */
     header {
       position: fixed;
       top: 0;
@@ -96,7 +95,6 @@
       gap: 15px;
     }
     
-    /* Updated TON icon styles */
     .ton-icon-header {
       font-size: 32px;
       color: #0088cc;
@@ -145,8 +143,8 @@
     
     .nft-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
       margin-bottom: 30px;
     }
     
@@ -169,33 +167,32 @@
     
     .nft-image {
       width: 100%;
-      height: 200px;
+      height: 150px;
       object-fit: cover;
       display: block;
     }
     
     .nft-info {
-      padding: 18px 12px;
+      padding: 12px;
     }
     
     .nft-name {
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 600;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       text-align: center;
       color: var(--light);
     }
     
     .nft-rarity {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       text-align: center;
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       display: inline-block;
       width: 100%;
       font-weight: 600;
-      letter-spacing: 0.5px;
     }
     
     .common { background: var(--common); }
@@ -206,11 +203,29 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      font-size: 1.2rem;
+      gap: 5px;
+      font-size: 1rem;
       font-weight: 700;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       color: var(--warning);
+    }
+    
+    .free-btn {
+      width: 100%;
+      padding: 6px;
+      background: var(--success);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 5px;
+    }
+    
+    .free-btn:hover {
+      background: #218838;
     }
     
     .sold-out {
@@ -218,7 +233,7 @@
       color: white;
       text-align: center;
       padding: 6px;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 600;
       border-radius: 4px;
     }
@@ -228,11 +243,11 @@
     }
     
     .progress-bar {
-      height: 8px;
+      height: 6px;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 4px;
       overflow: hidden;
-      margin: 12px 0 8px;
+      margin: 8px 0;
     }
     
     .progress-fill {
@@ -243,7 +258,7 @@
     }
     
     .sold-info {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       text-align: center;
       color: var(--gray);
       display: flex;
@@ -263,7 +278,7 @@
       backdrop-filter: blur(10px);
       display: flex;
       justify-content: space-around;
-      padding: 15px 0;
+      padding: 12px 0;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       z-index: 100;
     }
@@ -276,7 +291,7 @@
       color: var(--gray);
       cursor: pointer;
       transition: var(--transition);
-      padding: 5px 15px;
+      padding: 5px 10px;
       border-radius: 12px;
     }
     
@@ -285,11 +300,11 @@
     }
     
     .nav-item i {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
     }
     
     .nav-item span {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 500;
     }
     
@@ -297,13 +312,13 @@
       text-align: center;
       padding: 40px 20px;
       color: var(--gray);
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
     
     .market-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
       margin-bottom: 30px;
     }
     
@@ -332,8 +347,8 @@
     .modal-content {
       background: var(--dark);
       border-radius: var(--border-radius);
-      width: 90%;
-      max-width: 450px;
+      width: 95%;
+      max-width: 400px;
       overflow: hidden;
       transform: translateY(20px);
       transition: var(--transition);
@@ -348,7 +363,7 @@
     }
     
     .modal-header {
-      padding: 20px;
+      padding: 15px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -357,7 +372,7 @@
     }
     
     .modal-header h2 {
-      font-size: 1.5rem;
+      font-size: 1.3rem;
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -367,10 +382,10 @@
       background: none;
       border: none;
       color: var(--light);
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       cursor: pointer;
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -384,30 +399,31 @@
     }
     
     .modal-body {
-      padding: 25px;
+      padding: 20px;
     }
     
     .modal-image {
       width: 100%;
       border-radius: var(--border-radius);
-      margin-bottom: 25px;
-      max-height: 280px;
+      margin-bottom: 20px;
+      max-height: 250px;
       object-fit: cover;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .modal-details {
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       background: rgba(255, 255, 255, 0.05);
       border-radius: var(--border-radius);
-      padding: 15px;
+      padding: 12px;
     }
     
     .detail-row {
       display: flex;
       justify-content: space-between;
-      padding: 12px 0;
+      padding: 10px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.9rem;
     }
     
     .detail-label {
@@ -421,19 +437,19 @@
     .quantity-selector {
       display: flex;
       align-items: center;
-      gap: 15px;
-      margin: 25px 0;
+      gap: 12px;
+      margin: 20px 0;
       justify-content: center;
     }
     
     .qty-btn {
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.1);
       border: none;
       color: white;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       cursor: pointer;
       transition: var(--transition);
       display: flex;
@@ -447,32 +463,32 @@
     }
     
     .qty-input {
-      width: 70px;
+      width: 60px;
       text-align: center;
-      padding: 12px;
+      padding: 10px;
       background: rgba(255, 255, 255, 0.1);
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       color: white;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 600;
     }
     
     .modal-buy-btn {
       width: 100%;
-      padding: 16px;
+      padding: 14px;
       background: var(--gradient);
       color: white;
       border: none;
-      border-radius: 12px;
-      font-size: 1.2rem;
+      border-radius: 10px;
+      font-size: 1.1rem;
       font-weight: 600;
       cursor: pointer;
       transition: var(--transition);
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
     }
     
@@ -490,8 +506,8 @@
     
     .ton-icon {
       display: inline-block;
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       background: #0088cc;
       border-radius: 50%;
       position: relative;
@@ -503,30 +519,29 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 8px;
+      font-size: 7px;
       font-weight: bold;
       color: white;
     }
     
-    /* Profile Page Styles */
     .profile-page {
       display: none;
     }
     
     .profile-header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       position: relative;
     }
     
     .profile-avatar {
-      width: 110px;
-      height: 110px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       object-fit: cover;
-      margin: 0 auto 15px;
-      border: 4px solid var(--primary);
-      box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
+      margin: 0 auto 12px;
+      border: 3px solid var(--primary);
+      box-shadow: 0 0 15px rgba(255, 107, 107, 0.4);
     }
     
     .username-container {
@@ -550,47 +565,46 @@
     .profile-info {
       background: rgba(255, 255, 255, 0.05);
       border-radius: var(--border-radius);
-      padding: 25px;
-      margin-bottom: 25px;
+      padding: 20px;
+      margin-bottom: 20px;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .info-item {
       display: flex;
       justify-content: space-between;
-      padding: 12px 0;
+      padding: 10px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       align-items: center;
+      font-size: 0.9rem;
     }
     
     .info-label {
       color: var(--gray);
-      font-size: 0.95rem;
     }
     
     .info-value {
       font-weight: 600;
-      font-size: 1rem;
     }
     
     .referral-section {
       background: rgba(255, 255, 255, 0.05);
       border-radius: var(--border-radius);
-      padding: 25px;
+      padding: 20px;
       text-align: center;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .referral-title {
-      margin-bottom: 15px;
-      font-size: 1.3rem;
+      margin-bottom: 12px;
+      font-size: 1.2rem;
       color: var(--primary);
       font-weight: 700;
     }
     
     .referral-link-container {
       display: flex;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
       border-radius: var(--border-radius);
       overflow: hidden;
     }
@@ -598,25 +612,26 @@
     .referral-link {
       flex: 1;
       background: rgba(255, 255, 255, 0.1);
-      padding: 12px 15px;
+      padding: 10px 12px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
       text-align: right;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
     
     .copy-btn {
       background: var(--primary);
       color: white;
       border: none;
-      padding: 12px 20px;
+      padding: 10px 15px;
       cursor: pointer;
       transition: var(--transition);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       font-weight: 600;
+      font-size: 0.85rem;
     }
     
     .copy-btn:hover {
@@ -625,8 +640,8 @@
     
     .referral-note {
       color: var(--warning);
-      font-size: 0.9rem;
-      margin-top: 15px;
+      font-size: 0.85rem;
+      margin-top: 12px;
       line-height: 1.5;
     }
     
@@ -636,7 +651,7 @@
     
     .ton-connect-container {
       width: 100%;
-      margin: 20px 0;
+      margin: 15px 0;
     }
     
     .ton-connect-button {
@@ -644,9 +659,9 @@
       background: var(--gradient);
       color: white;
       border: none;
-      padding: 14px;
-      border-radius: 12px;
-      font-size: 1rem;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
       transition: var(--transition);
@@ -663,11 +678,11 @@
     }
     
     .wallet-status {
-      margin-top: 10px;
-      font-size: 0.9rem;
+      margin-top: 8px;
+      font-size: 0.85rem;
       text-align: center;
-      padding: 10px;
-      border-radius: 8px;
+      padding: 8px;
+      border-radius: 6px;
       background: rgba(255, 255, 255, 0.05);
     }
     
@@ -685,87 +700,87 @@
     
     .market-header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
     }
     
     .market-header h2 {
-      font-size: 1.8rem;
-      margin-bottom: 15px;
+      font-size: 1.5rem;
+      margin-bottom: 12px;
       color: var(--primary);
     }
     
     .market-feature {
       background: rgba(255, 255, 255, 0.05);
       border-radius: var(--border-radius);
-      padding: 25px;
-      margin-bottom: 25px;
+      padding: 20px;
+      margin-bottom: 20px;
       text-align: center;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .feature-icon {
-      font-size: 3rem;
-      margin-bottom: 20px;
+      font-size: 2.5rem;
+      margin-bottom: 15px;
       color: var(--primary);
     }
     
     .feature-title {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
+      font-size: 1.3rem;
+      margin-bottom: 12px;
       color: var(--light);
     }
     
     .feature-description {
       color: var(--gray);
-      margin-bottom: 20px;
-      line-height: 1.6;
+      margin-bottom: 15px;
+      line-height: 1.5;
+      font-size: 0.95rem;
     }
     
     .countdown {
       display: flex;
       justify-content: center;
-      gap: 15px;
-      margin: 25px 0;
+      gap: 12px;
+      margin: 20px 0;
     }
     
     .countdown-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 60px;
+      min-width: 50px;
     }
     
     .countdown-value {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--primary);
     }
     
     .countdown-label {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--gray);
     }
     
-    /* My NFTs section */
     .my-nfts-section {
       background: rgba(255, 255, 255, 0.05);
       border-radius: var(--border-radius);
-      padding: 25px;
-      margin-bottom: 25px;
+      padding: 20px;
+      margin-bottom: 20px;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .section-title {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
+      font-size: 1.3rem;
+      margin-bottom: 15px;
       color: var(--primary);
       text-align: center;
     }
     
     .nfts-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 15px;
     }
     
     .user-nft-card {
@@ -787,17 +802,17 @@
     
     .user-nft-image {
       width: 100%;
-      height: 150px;
+      height: 130px;
       object-fit: cover;
       display: block;
     }
     
     .user-nft-info {
-      padding: 12px;
+      padding: 10px;
     }
     
     .user-nft-name {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
       margin-bottom: 5px;
       text-align: center;
@@ -808,9 +823,9 @@
     }
     
     .user-nft-rarity {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-align: center;
-      padding: 3px 8px;
+      padding: 2px 6px;
       border-radius: 20px;
       margin-bottom: 5px;
       display: inline-block;
@@ -818,16 +833,15 @@
       font-weight: 600;
     }
     
-    /* Profile NFT Modal */
     .profile-nft-modal .modal-content {
-      max-width: 500px;
+      max-width: 400px;
     }
     
     .nft-actions {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 20px;
+      gap: 10px;
+      margin-top: 15px;
     }
     
     .action-btn {
@@ -838,7 +852,7 @@
       background: rgba(255, 255, 255, 0.05);
       border: none;
       border-radius: var(--border-radius);
-      padding: 15px 10px;
+      padding: 12px 8px;
       color: var(--light);
       cursor: pointer;
       transition: var(--transition);
@@ -851,8 +865,8 @@
     }
     
     .action-btn i {
-      font-size: 1.8rem;
-      margin-bottom: 8px;
+      font-size: 1.5rem;
+      margin-bottom: 6px;
     }
     
     .action-btn.send i { color: var(--success); }
@@ -860,11 +874,10 @@
     .action-btn.share i { color: var(--primary); }
     
     .action-btn span {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 600;
     }
     
-    /* Highlight first gift */
     .first-gift {
       position: relative;
       border: 2px solid var(--warning);
@@ -873,94 +886,34 @@
     .first-gift::after {
       content: "FEATURED";
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: 8px;
+      left: 8px;
       background: var(--warning);
       color: black;
       font-weight: bold;
-      font-size: 0.7rem;
-      padding: 3px 8px;
+      font-size: 0.6rem;
+      padding: 2px 6px;
       border-radius: 20px;
       z-index: 10;
     }
     
-    @media (max-width: 768px) {
-      .nft-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      }
-      
-      .wallet-section {
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 10px;
-      }
-      
-      .logo h1 {
-        font-size: 1.5rem;
-      }
-      
-      .modal-content {
-        width: 95%;
-      }
-      
-      .countdown {
-        gap: 10px;
-      }
-      
-      .countdown-item {
-        min-width: 50px;
-      }
-      
-      .countdown-value {
-        font-size: 1.5rem;
-      }
-      
-      .nfts-grid {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      }
+    .free-gift {
+      position: relative;
+      border: 2px solid var(--success);
     }
     
-    @media (max-width: 480px) {
-      .nft-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      .tabs {
-        justify-content: center;
-      }
-      
-      .referral-link-container {
-        flex-direction: column;
-      }
-      
-      .referral-link {
-        border-radius: var(--border-radius) var(--border-radius) 0 0;
-      }
-      
-      .copy-btn {
-        border-radius: 0 0 var(--border-radius) var(--border-radius);
-      }
-      
-      .detail-row {
-        flex-direction: column;
-        gap: 5px;
-      }
-      
-      .countdown {
-        gap: 8px;
-      }
-      
-      .countdown-item {
-        min-width: 45px;
-      }
-      
-      .countdown-value {
-        font-size: 1.3rem;
-      }
-      
-      .nft-actions {
-        grid-template-columns: 1fr;
-      }
+    .free-gift::after {
+      content: "FREE";
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: var(--success);
+      color: white;
+      font-weight: bold;
+      font-size: 0.6rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      z-index: 10;
     }
   </style>
 </head>
@@ -972,7 +925,6 @@
         <h1>Giftoo</h1>
       </div>
       <div class="wallet-section">
-        <!-- Removed TON logo div and added real TON icon -->
         <i class="fab fa-ton ton-icon-header"></i>
         <div id="ton-connect-button"></div>
       </div>
@@ -1192,15 +1144,26 @@
   </div>
 
   <script>
-    // Updated NFT data with Giftoo as the first gift and updated quantities
+    // Updated NFT data with The Seer as a free gift
     const nfts = [
+      {
+        id: 0,
+        name: "The Seer",
+        image: "https://i.suar.me/WvpYx/l",
+        price: 0,
+        total: 10000,
+        sold: 0,
+        rarity: "Epic",
+        rarityClass: "legendary",
+        isFreeGift: true
+      },
       {
         id: 1,
         name: "Giftoo",
         image: "https://i.suar.me/xpLaV/l",
         price: 20,
         total: 1000,
-        sold: 123, // Updated as requested
+        sold: 123,
         rarity: "Legendary",
         rarityClass: "legendary",
         isFirstGift: true
@@ -1211,7 +1174,7 @@
         image: "https://i.suar.me/wpW24/l",
         price: 0.1,
         total: 25000,
-        sold: 11478, // Updated as requested
+        sold: 11478,
         rarity: "Common",
         rarityClass: "common"
       },
@@ -1312,32 +1275,81 @@
         const percentageSold = (nft.sold / nft.total) * 100;
         
         const nftCard = document.createElement('div');
-        nftCard.className = `nft-card ${nft.isFirstGift ? 'first-gift' : ''}`;
+        nftCard.className = `nft-card ${nft.isFirstGift ? 'first-gift' : ''} ${nft.isFreeGift ? 'free-gift' : ''}`;
         nftCard.innerHTML = `
           <img src="${nft.image}" alt="${nft.name}" class="nft-image">
           <div class="nft-info">
             <h3 class="nft-name">${nft.name}</h3>
             <div class="nft-rarity ${nft.rarityClass}">${nft.rarity}</div>
-            <div class="nft-price">
-              <span class="ton-icon"></span>
-              ${nft.price} TON
-            </div>
-            <div class="progress-container">
-              <div class="progress-bar">
-                <div class="progress-fill" style="width: ${percentageSold}%"></div>
+            ${nft.price > 0 ? `
+              <div class="nft-price">
+                <span class="ton-icon"></span>
+                ${nft.price} TON
               </div>
-              <div class="sold-info">
-                <span>Sold: ${formatNumber(nft.sold)}</span>
-                <span>Available: ${formatNumber(available)}</span>
+              <div class="progress-container">
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: ${percentageSold}%"></div>
+                </div>
+                <div class="sold-info">
+                  <span>Sold: ${formatNumber(nft.sold)}</span>
+                  <span>Available: ${formatNumber(available)}</span>
+                </div>
               </div>
-            </div>
-            ${isSoldOut ? '<div class="sold-out">Sold Out</div>' : ''}
+              ${isSoldOut ? '<div class="sold-out">Sold Out</div>' : ''}
+            ` : `
+              <button class="free-btn" data-id="${nft.id}">
+                <i class="fas fa-gift"></i> Claim Free
+              </button>
+            `}
           </div>
         `;
         
-        nftCard.addEventListener('click', () => openModal(nft));
+        if (nft.price > 0) {
+          nftCard.addEventListener('click', () => openModal(nft));
+        } else {
+          const freeBtn = nftCard.querySelector('.free-btn');
+          freeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            claimFreeNFT(nft);
+          });
+        }
+        
         nftGrid.appendChild(nftCard);
       });
+    }
+    
+    // Claim free NFT
+    function claimFreeNFT(nft) {
+      // Check if already claimed
+      const alreadyClaimed = purchasedNFTs.some(item => item.id === nft.id);
+      if (alreadyClaimed) {
+        alert('You have already claimed this free NFT!');
+        return;
+      }
+      
+      // Add to purchased NFTs
+      const purchase = {
+        ...nft,
+        purchaseDate: new Date().toISOString().split('T')[0],
+        quantity: 1
+      };
+      
+      purchasedNFTs.push(purchase);
+      
+      // Update localStorage
+      localStorage.setItem('purchasedNFTs', JSON.stringify(purchasedNFTs));
+      
+      // Update sold count
+      const nftIndex = nfts.findIndex(item => item.id === nft.id);
+      if (nftIndex !== -1) {
+        nfts[nftIndex].sold += 1;
+      }
+      
+      // Re-render NFTs and user NFTs
+      renderNFTs(nfts);
+      renderUserNFTs();
+      
+      alert(`🎉 You successfully claimed "${nft.name}" for free!`);
     }
     
     // Render user's NFTs in profile
@@ -1425,7 +1437,7 @@
     // Initialize TON Connect
     function initTonConnect() {
       tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-        manifestUrl: 'https://giftoo.com/tonconnect-manifest.json',
+        manifestUrl: 'https://github.com/Jamladz/Raija/tonconnect-manifest.json',
         buttonRootId: 'ton-connect-button'
       });
       
