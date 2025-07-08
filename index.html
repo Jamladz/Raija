@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gift Market Pro - NFT Store</title>
+  <title>Giftoo - NFT Gift Store</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
@@ -16,9 +16,9 @@
     }
     
     :root {
-      --primary: #0088cc;
-      --primary-dark: #006699;
-      --secondary: #ff6b6b;
+      --primary: #ff6b6b;
+      --primary-dark: #ff4757;
+      --secondary: #ff9f43;
       --dark: #1a1a2e;
       --darker: #0d0d1a;
       --light: #f8f9fa;
@@ -28,18 +28,19 @@
       --danger: #dc3545;
       --common: #6c757d;
       --rare: #007bff;
-      --legendary: #dc3545;
+      --legendary: #ff6b6b;
       --epic: #9c27b0;
       --border-radius: 16px;
       --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
       --transition: all 0.3s ease;
-      --gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      --gradient: linear-gradient(135deg, #ff6b6b 0%, #ff9f43 100%);
     }
     
     body {
       background: linear-gradient(135deg, var(--darker), var(--dark));
       color: var(--light);
       min-height: 100vh;
+      padding-top: 100px; /* Added for fixed header */
       padding-bottom: 90px;
     }
     
@@ -49,13 +50,21 @@
       padding: 15px;
     }
     
+    /* Fixed Header */
     header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 0;
-      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: var(--shadow);
     }
     
     .logo {
@@ -87,8 +96,14 @@
       gap: 15px;
     }
     
+    /* Updated TON icon styles */
+    .ton-icon-header {
+      font-size: 32px;
+      color: #0088cc;
+    }
+    
     .wallet-btn {
-      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+      background: var(--gradient);
       color: white;
       border: none;
       padding: 10px 20px;
@@ -104,7 +119,7 @@
     
     .wallet-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0, 136, 204, 0.3);
+      box-shadow: 0 6px 15px rgba(255, 107, 107, 0.3);
     }
     
     .tabs {
@@ -458,12 +473,12 @@
       justify-content: center;
       align-items: center;
       gap: 12px;
-      box-shadow: 0 5px 15px rgba(37, 117, 252, 0.3);
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
     }
     
     .modal-buy-btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(37, 117, 252, 0.5);
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
     }
     
     .modal-buy-btn:disabled {
@@ -511,7 +526,7 @@
       object-fit: cover;
       margin: 0 auto 15px;
       border: 4px solid var(--primary);
-      box-shadow: 0 0 20px rgba(0, 136, 204, 0.4);
+      box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
     }
     
     .username-container {
@@ -635,12 +650,12 @@
       font-weight: 600;
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: 0 5px 15px rgba(37, 117, 252, 0.3);
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
     }
     
     .ton-connect-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(37, 117, 252, 0.5);
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
     }
     
     .ton-connect-button.connected {
@@ -731,6 +746,144 @@
       color: var(--gray);
     }
     
+    /* My NFTs section */
+    .my-nfts-section {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--border-radius);
+      padding: 25px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      text-align: center;
+    }
+    
+    .nfts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 20px;
+    }
+    
+    .user-nft-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      position: relative;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .user-nft-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .user-nft-image {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .user-nft-info {
+      padding: 12px;
+    }
+    
+    .user-nft-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      text-align: center;
+      color: var(--light);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .user-nft-rarity {
+      font-size: 0.75rem;
+      text-align: center;
+      padding: 3px 8px;
+      border-radius: 20px;
+      margin-bottom: 5px;
+      display: inline-block;
+      width: 100%;
+      font-weight: 600;
+    }
+    
+    /* Profile NFT Modal */
+    .profile-nft-modal .modal-content {
+      max-width: 500px;
+    }
+    
+    .nft-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+    
+    .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.05);
+      border: none;
+      border-radius: var(--border-radius);
+      padding: 15px 10px;
+      color: var(--light);
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+    }
+    
+    .action-btn:hover {
+      background: rgba(255, 107, 107, 0.2);
+      transform: translateY(-3px);
+    }
+    
+    .action-btn i {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+    
+    .action-btn.send i { color: var(--success); }
+    .action-btn.sell i { color: var(--warning); }
+    .action-btn.share i { color: var(--primary); }
+    
+    .action-btn span {
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    /* Highlight first gift */
+    .first-gift {
+      position: relative;
+      border: 2px solid var(--warning);
+    }
+    
+    .first-gift::after {
+      content: "FEATURED";
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: var(--warning);
+      color: black;
+      font-weight: bold;
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 20px;
+      z-index: 10;
+    }
+    
     @media (max-width: 768px) {
       .nft-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -760,6 +913,10 @@
       
       .countdown-value {
         font-size: 1.5rem;
+      }
+      
+      .nfts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
       }
     }
     
@@ -800,6 +957,10 @@
       .countdown-value {
         font-size: 1.3rem;
       }
+      
+      .nft-actions {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -807,10 +968,12 @@
   <div class="container">
     <header>
       <div class="logo">
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M23,16V4C23,2.9 22.1,2 21,2H3A2,2 0 0,0 1,4V16A2,2 0 0,0 3,18H4V20H6V18H18V20H20V18H21A2,2 0 0,0 23,16M21,16H3V4H21V16Z'/%3E%3C/svg%3E" alt="Gift">
-        <h1>Gift Market Pro</h1>
+        <img src="https://i.suar.me/xpLaV/l" alt="Giftoo Logo">
+        <h1>Giftoo</h1>
       </div>
       <div class="wallet-section">
+        <!-- Removed TON logo div and added real TON icon -->
+        <i class="fab fa-ton ton-icon-header"></i>
         <div id="ton-connect-button"></div>
       </div>
     </header>
@@ -832,7 +995,7 @@
     <!-- Profile Page -->
     <div id="profile-page" class="page profile-page">
       <div class="profile-header">
-        <img src="https://via.placeholder.com/100/0088cc/ffffff?text=U" class="profile-avatar" id="profile-avatar" alt="Profile">
+        <img src="https://via.placeholder.com/100/ff6b6b/ffffff?text=U" class="profile-avatar" id="profile-avatar" alt="Profile">
         <div class="username-container">
           <h2 id="profile-username">Telegram User</h2>
         </div>
@@ -850,10 +1013,19 @@
       <div class="referral-section">
         <h3 class="referral-title">Referral Program</h3>
         <div class="referral-link-container">
-          <div class="referral-link" id="referral-link">https://t.me/GiftMarketProBot?start=ref_username</div>
+          <div class="referral-link" id="referral-link">https://t.me/GiftooBot?start=ref_username</div>
           <button class="copy-btn" id="copy-referral-btn">
             <i class="fas fa-copy"></i> Copy
           </button>
+        </div>
+        <p class="referral-note">Earn 10% commission for every purchase made through your referral link!</p>
+      </div>
+      
+      <!-- My NFTs section -->
+      <div class="my-nfts-section">
+        <h3 class="section-title">My Gift Collection</h3>
+        <div class="nfts-grid" id="user-nfts-grid">
+          <!-- Purchased NFTs will appear here -->
         </div>
       </div>
     </div>
@@ -861,7 +1033,7 @@
     <!-- Market Page -->
     <div id="market-page" class="page market-page">
       <div class="market-header">
-        <h2>Marketplace</h2>
+        <h2>Giftoo Marketplace</h2>
         <p>Coming soon! Trade NFTs with other collectors</p>
       </div>
       
@@ -874,7 +1046,7 @@
         
         <div class="countdown">
           <div class="countdown-item">
-            <div class="countdown-value" id="days">00</div>
+            <div class="countdown-value" id="days">45</div>
             <div class="countdown-label">Days</div>
           </div>
           <div class="countdown-item">
@@ -925,6 +1097,7 @@
     </div>
   </div>
 
+  <!-- NFT Purchase Modal -->
   <div class="modal" id="nft-modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -973,21 +1146,77 @@
     </div>
   </div>
 
+  <!-- Profile NFT Modal -->
+  <div class="modal profile-nft-modal" id="profile-nft-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="profile-modal-nft-name">Giftoo NFT</h2>
+        <button class="close-btn" id="close-profile-modal">×</button>
+      </div>
+      <div class="modal-body">
+        <img src="" alt="NFT" class="modal-image" id="profile-modal-nft-image">
+        <div class="modal-details">
+          <div class="detail-row">
+            <span class="detail-label">Rarity:</span>
+            <span class="detail-value" id="profile-modal-nft-rarity">Legendary</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Purchase Date:</span>
+            <span class="detail-value" id="profile-modal-purchase-date">2025-07-08</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Purchase Price:</span>
+            <span class="detail-value">
+              <span class="ton-icon"></span>
+              <span id="profile-modal-price">20.00</span> TON
+            </span>
+          </div>
+        </div>
+        
+        <div class="nft-actions">
+          <button class="action-btn send">
+            <i class="fas fa-paper-plane"></i>
+            <span>Send</span>
+          </button>
+          <button class="action-btn sell">
+            <i class="fas fa-tag"></i>
+            <span>Sell</span>
+          </button>
+          <button class="action-btn share">
+            <i class="fas fa-share-alt"></i>
+            <span>Share</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Updated NFT data with the fifth gift having 236 sold and 764 available
+    // Updated NFT data with Giftoo as the first gift and updated quantities
     const nfts = [
       {
         id: 1,
+        name: "Giftoo",
+        image: "https://i.suar.me/xpLaV/l",
+        price: 20,
+        total: 25000,
+        sold: 12346, // Updated as requested
+        rarity: "Legendary",
+        rarityClass: "legendary",
+        isFirstGift: true
+      },
+      {
+        id: 2,
         name: "Common Gift #1",
         image: "https://i.suar.me/wpW24/l",
         price: 0.1,
         total: 1000,
-        sold: 236,
+        sold: 236, // Updated as requested
         rarity: "Common",
         rarityClass: "common"
       },
       {
-        id: 2,
+        id: 3,
         name: "Common Gift #2",
         image: "https://i.suar.me/VzWvK/l",
         price: 0.15,
@@ -997,7 +1226,7 @@
         rarityClass: "common"
       },
       {
-        id: 3,
+        id: 4,
         name: "Rare Gift",
         image: "https://i.suar.me/gP8A5/l",
         price: 0.5,
@@ -1007,22 +1236,12 @@
         rarityClass: "rare"
       },
       {
-        id: 4,
+        id: 5,
         name: "Legendary Gift #1",
         image: "https://i.suar.me/7aqdj/l",
         price: 5,
         total: 3000,
         sold: 1275,
-        rarity: "Legendary",
-        rarityClass: "legendary"
-      },
-      {
-        id: 5,
-        name: "Legendary Gift #2",
-        image: "https://i.suar.me/xpLaV/l",
-        price: 20,
-        total: 1000,
-        sold: 236,
         rarity: "Legendary",
         rarityClass: "legendary"
       }
@@ -1058,11 +1277,25 @@
     const countdownHours = document.getElementById('hours');
     const countdownMinutes = document.getElementById('minutes');
     const countdownSeconds = document.getElementById('seconds');
+    const userNftsGrid = document.getElementById('user-nfts-grid');
+    const profileModal = document.getElementById('profile-nft-modal');
+    const closeProfileModal = document.getElementById('close-profile-modal');
+    const profileModalImage = document.getElementById('profile-modal-nft-image');
+    const profileModalName = document.getElementById('profile-modal-nft-name');
+    const profileModalRarity = document.getElementById('profile-modal-nft-rarity');
+    const profileModalPrice = document.getElementById('profile-modal-price');
+    const profileModalPurchaseDate = document.getElementById('profile-modal-purchase-date');
+    const sendBtn = document.querySelector('.action-btn.send');
+    const sellBtn = document.querySelector('.action-btn.sell');
+    const shareBtn = document.querySelector('.action-btn.share');
 
     // TON Connect variables
     let tonConnectUI;
     let wallet = null;
     const recipientAddress = 'UQCTZAMbXoN5T43K9gJXH8GYWBmIstXrUrdoV9kv3btN1Ad3';
+    
+    // User's purchased NFTs (stored in localStorage)
+    let purchasedNFTs = JSON.parse(localStorage.getItem('purchasedNFTs')) || [];
     
     // Format numbers with commas
     function formatNumber(num) {
@@ -1079,7 +1312,7 @@
         const percentageSold = (nft.sold / nft.total) * 100;
         
         const nftCard = document.createElement('div');
-        nftCard.className = 'nft-card';
+        nftCard.className = `nft-card ${nft.isFirstGift ? 'first-gift' : ''}`;
         nftCard.innerHTML = `
           <img src="${nft.image}" alt="${nft.name}" class="nft-image">
           <div class="nft-info">
@@ -1106,6 +1339,36 @@
         nftGrid.appendChild(nftCard);
       });
     }
+    
+    // Render user's NFTs in profile
+    function renderUserNFTs() {
+      userNftsGrid.innerHTML = '';
+      
+      if (purchasedNFTs.length === 0) {
+        userNftsGrid.innerHTML = `
+          <div class="coming-soon" style="grid-column: 1/-1">
+            <p>You haven't purchased any NFTs yet</p>
+            <p>Visit the store to buy your first NFT!</p>
+          </div>
+        `;
+        return;
+      }
+      
+      purchasedNFTs.forEach(nft => {
+        const nftCard = document.createElement('div');
+        nftCard.className = 'user-nft-card';
+        nftCard.innerHTML = `
+          <img src="${nft.image}" alt="${nft.name}" class="user-nft-image">
+          <div class="user-nft-info">
+            <h3 class="user-nft-name">${nft.name}</h3>
+            <div class="user-nft-rarity ${nft.rarityClass}">${nft.rarity}</div>
+          </div>
+        `;
+        
+        nftCard.addEventListener('click', () => openProfileModal(nft));
+        userNftsGrid.appendChild(nftCard);
+      });
+    }
 
     // Open NFT modal
     function openModal(nft) {
@@ -1127,10 +1390,26 @@
       
       modal.classList.add('active');
     }
+    
+    // Open profile NFT modal
+    function openProfileModal(nft) {
+      profileModalImage.src = nft.image;
+      profileModalName.textContent = nft.name;
+      profileModalRarity.textContent = nft.rarity;
+      profileModalPrice.textContent = nft.price.toFixed(2);
+      profileModalPurchaseDate.textContent = nft.purchaseDate;
+      
+      profileModal.classList.add('active');
+    }
 
     // Close modal
     function closeModalFunc() {
       modal.classList.remove('active');
+    }
+    
+    // Close profile modal
+    function closeProfileModalFunc() {
+      profileModal.classList.remove('active');
     }
 
     // Filter NFTs by rarity
@@ -1146,7 +1425,7 @@
     // Initialize TON Connect
     function initTonConnect() {
       tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-        manifestUrl: 'https://jamladz.github.io/Jamla/tonconnect-manifest.json',
+        manifestUrl: 'https://giftoo.com/tonconnect-manifest.json',
         buttonRootId: 'ton-connect-button'
       });
       
@@ -1159,9 +1438,6 @@
           const address = wallet.account.address;
           const shortAddress = address.substring(0, 6) + '...' + address.substring(address.length - 4);
           walletStatus.innerHTML = `<span class="connected-status">✅ Wallet connected: ${shortAddress}</span>`;
-          
-          // Simulate fetching balance (in a real app, you would fetch from blockchain)
-          const balance = (Math.random() * 100).toFixed(2);
           
           // Update profile button
           tonConnectButtonProfile.textContent = 'Wallet Connected';
@@ -1202,8 +1478,10 @@
         const result = await tonConnectUI.sendTransaction(tx);
         alert(`✅ Payment sent successfully! (${amount} TON)`);
         closeModalFunc();
+        return true;
       } catch (error) {
         alert(`❌ Payment failed: ${error.message}`);
+        return false;
       }
     }
 
@@ -1217,7 +1495,7 @@
           profileUsername.textContent = username;
           
           // Generate referral link
-          const refLink = `https://t.me/GiftMarketProBot?start=ref_${user.username || 'user'}`;
+          const refLink = `https://t.me/GiftooBot?start=ref_${user.username || 'user'}`;
           referralLink.textContent = refLink;
           
           // Set avatar if available
@@ -1237,7 +1515,7 @@
     // Market countdown timer
     function startCountdown() {
       const launchDate = new Date();
-      launchDate.setDate(launchDate.getDate() + 14);
+      launchDate.setDate(launchDate.getDate() + 45); // Set to 45 days
       
       function updateCountdown() {
         const now = new Date();
@@ -1262,11 +1540,43 @@
       updateCountdown();
       const timer = setInterval(updateCountdown, 1000);
     }
+    
+    // Simulate NFT purchase
+    function purchaseNFT(nft, quantity) {
+      // Find the NFT in our array
+      const nftIndex = nfts.findIndex(item => item.id === nft.id);
+      
+      if (nftIndex === -1) return false;
+      
+      // Update sold count
+      nfts[nftIndex].sold += quantity;
+      
+      // Add to purchased NFTs
+      const purchase = {
+        ...nft,
+        purchaseDate: new Date().toISOString().split('T')[0],
+        quantity: quantity
+      };
+      
+      purchasedNFTs.push(purchase);
+      
+      // Update localStorage
+      localStorage.setItem('purchasedNFTs', JSON.stringify(purchasedNFTs));
+      
+      // Re-render NFTs and user NFTs
+      renderNFTs(nfts);
+      renderUserNFTs();
+      
+      return true;
+    }
 
     // Initialize the page
     function init() {
       // Render NFTs
       renderNFTs(nfts);
+      
+      // Render user NFTs
+      renderUserNFTs();
       
       // Initialize TON Connect
       initTonConnect();
@@ -1276,6 +1586,13 @@
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
           closeModalFunc();
+        }
+      });
+      
+      closeProfileModal.addEventListener('click', closeProfileModalFunc);
+      profileModal.addEventListener('click', (e) => {
+        if (e.target === profileModal) {
+          closeProfileModalFunc();
         }
       });
       
@@ -1291,7 +1608,7 @@
       });
       
       // Buy button
-      buyBtn.addEventListener('click', () => {
+      buyBtn.addEventListener('click', async () => {
         const quantity = parseInt(qtyInput.value);
         const nftPrice = parseFloat(modalPrice.textContent);
         const totalPrice = quantity * nftPrice;
@@ -1301,7 +1618,31 @@
           return;
         }
         
-        sendTransaction(totalPrice);
+        // Get the current NFT data
+        const currentNFT = nfts.find(nft => nft.name === modalName.textContent);
+        if (!currentNFT) return;
+        
+        // Send transaction
+        const success = await sendTransaction(totalPrice);
+        
+        if (success) {
+          // Purchase NFT
+          purchaseNFT(currentNFT, quantity);
+          alert(`🎉 You successfully purchased ${quantity} ${currentNFT.name} NFT(s)!`);
+        }
+      });
+      
+      // Profile NFT actions
+      sendBtn.addEventListener('click', () => {
+        alert('Send feature coming soon!');
+      });
+      
+      sellBtn.addEventListener('click', () => {
+        alert('Sell feature coming soon!');
+      });
+      
+      shareBtn.addEventListener('click', () => {
+        alert('Share feature coming soon!');
       });
       
       // Bottom navigation
