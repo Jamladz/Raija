@@ -34,6 +34,7 @@
       --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
       --transition: all 0.3s ease;
       --gradient: linear-gradient(135deg, #ff6b6b 0%, #ff9f43 100%);
+      --icy-blue: #00d4ff;
     }
     
     body {
@@ -943,6 +944,55 @@
       height: 16px;
       vertical-align: middle;
     }
+    
+    /* Coming Soon Page Styles */
+    .coming-soon-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 60vh;
+      text-align: center;
+    }
+    
+    .coming-soon-image {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      margin-bottom: 30px;
+    }
+    
+    .coming-soon-text {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--icy-blue);
+      text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+      margin-bottom: 20px;
+    }
+    
+    /* Upgrade Button Styles */
+    .upgrade-btn {
+      width: 100%;
+      padding: 10px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .upgrade-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
@@ -1013,52 +1063,9 @@
     
     <!-- Market Page -->
     <div id="market-page" class="page market-page">
-      <div class="market-header">
-        <h2>Giftoo Marketplace</h2>
-        <p>Coming soon! Trade NFTs with other collectors</p>
-      </div>
-      
-      <div class="market-feature">
-        <div class="feature-icon">
-          <i class="fas fa-store"></i>
-        </div>
-        <h3 class="feature-title">NFT Marketplace</h3>
-        <p class="feature-description">Our marketplace is under development and will launch soon. You'll be able to buy, sell and trade NFTs with other collectors.</p>
-        
-        <div class="countdown">
-          <div class="countdown-item">
-            <div class="countdown-value" id="days">45</div>
-            <div class="countdown-label">Days</div>
-          </div>
-          <div class="countdown-item">
-            <div class="countdown-value" id="hours">00</div>
-            <div class="countdown-label">Hours</div>
-          </div>
-          <div class="countdown-item">
-            <div class="countdown-value" id="minutes">00</div>
-            <div class="countdown-label">Minutes</div>
-          </div>
-          <div class="countdown-item">
-            <div class="countdown-value" id="seconds">00</div>
-            <div class="countdown-label">Seconds</div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="market-feature">
-        <div class="feature-icon">
-          <i class="fas fa-coins"></i>
-        </div>
-        <h3 class="feature-title">TON Coin Integration</h3>
-        <p class="feature-description">All transactions will be powered by TON Coin. You'll be able to buy and sell NFTs using your TON wallet.</p>
-      </div>
-      
-      <div class="market-feature">
-        <div class="feature-icon">
-          <i class="fas fa-exchange-alt"></i>
-        </div>
-        <h3 class="feature-title">Secure Trading</h3>
-        <p class="feature-description">Trade with confidence using our secure escrow system. Your NFTs are safe until the transaction is complete.</p>
+      <div class="coming-soon-container">
+        <img src="https://i.suar.me/dpd3e/l" alt="Coming Soon" class="coming-soon-image">
+        <div class="coming-soon-text">Coming Soon</div>
       </div>
     </div>
   </div>
@@ -1152,6 +1159,9 @@
               <span id="profile-modal-price">20.00</span>
             </span>
           </div>
+          <button class="upgrade-btn" id="upgrade-btn">
+            <i class="fas fa-arrow-up"></i> Upgrade
+          </button>
         </div>
         
         <div class="nft-actions">
@@ -1280,6 +1290,7 @@
     const sendBtn = document.querySelector('.action-btn.send');
     const sellBtn = document.querySelector('.action-btn.sell');
     const shareBtn = document.querySelector('.action-btn.share');
+    const upgradeBtn = document.getElementById('upgrade-btn');
 
     // TON Connect variables
     let tonConnectUI;
@@ -1702,6 +1713,11 @@
       
       shareBtn.addEventListener('click', () => {
         alert('Share feature coming soon!');
+      });
+      
+      // Upgrade button
+      upgradeBtn.addEventListener('click', () => {
+        alert('Upgrade feature coming soon!');
       });
       
       // Bottom navigation
