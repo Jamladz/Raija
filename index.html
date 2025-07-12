@@ -1188,7 +1188,7 @@
       {
         id: 0,
         name: "The Seer",
-        image: "https://i.suar.me/WvpYx/l",
+        image: "https://i.suar.me/evjXP/m",
         price: 0,
         total: 10000,
         sold: 0,
@@ -1199,7 +1199,7 @@
       {
         id: 1,
         name: "Teddy of Room 1408",
-        image: "https://i.suar.me/xpLaV/l",
+        image: "https://i.suar.me/PzlGp/m",
         price: 20,
         total: 1000,
         sold: 913,
@@ -1210,7 +1210,7 @@
       {
         id: 2,
         name: "Icey Hug",
-        image: "https://i.suar.me/wpW24/l",
+        image: "https://i.suar.me/9lVXw/m",
         price: 0.1,
         total: 25000,
         sold: 23424,
@@ -1220,7 +1220,7 @@
       {
         id: 3,
         name: "Vow Capsule",
-        image: "https://i.suar.me/VzWvK/l",
+        image: "https://i.suar.me/Yvrj5/m",
         price: 0.25,
         total: 20000,
         sold: 18643,
@@ -1230,7 +1230,7 @@
       {
         id: 4,
         name: "Pépé B2",
-        image: "https://i.suar.me/gP8A5/l",
+        image: "https://i.suar.me/Wv8rr/m",
         price: 0.5,
         total: 10000,
         sold: 9754,
@@ -1240,7 +1240,7 @@
       {
         id: 5,
         name: "Rider of Liberty",
-        image: "https://i.suar.me/7aqdj/l",
+        image: "https://i.suar.me/dpdXJ/m",
         price: 5,
         total: 3000,
         sold: 2145,
@@ -1248,6 +1248,16 @@
         rarityClass: "legendary"
       }
     ];
+
+    // Updated NFT images for profile view
+    const profileNftImages = {
+      0: "https://i.suar.me/evjXP/m",
+      1: "https://i.suar.me/PzlGp/m",
+      2: "https://i.suar.me/9lVXw/m",
+      3: "https://i.suar.me/Yvrj5/m",
+      4: "https://i.suar.me/Wv8rr/m",
+      5: "https://i.suar.me/dpdXJ/m"
+    };
 
     // DOM elements
     const nftGrid = document.getElementById('nft-grid');
@@ -1410,7 +1420,7 @@
         const nftCard = document.createElement('div');
         nftCard.className = 'user-nft-card';
         nftCard.innerHTML = `
-          <img src="${nft.image}" alt="${nft.name}" class="user-nft-image">
+          <img src="${profileNftImages[nft.id]}" alt="${nft.name}" class="user-nft-image">
           <div class="user-nft-info">
             <h3 class="user-nft-name">${nft.name}</h3>
             <div class="user-nft-rarity ${nft.rarityClass}">${nft.rarity}</div>
@@ -1445,7 +1455,7 @@
     
     // Open profile NFT modal
     function openProfileModal(nft) {
-      profileModalImage.src = nft.image;
+      profileModalImage.src = profileNftImages[nft.id];
       profileModalName.textContent = nft.name;
       profileModalRarity.textContent = nft.rarity;
       profileModalPrice.textContent = nft.price.toFixed(2);
