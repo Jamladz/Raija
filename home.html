@@ -1158,17 +1158,17 @@
           </div>
           <div class="detail-row">
             <span class="detail-label">Sold:</span>
-            <span class="detail-value" id="modal-nft-sold">12570</span>
+            <span class="detail-value" id="modal-nft-sold">12,570</span>
           </div>
           <div class="detail-row">
             <span class="detail-label">Available:</span>
-            <span class="detail-value" id="modal-nft-available">12430</span>
+            <span class="detail-value" id="modal-nft-available">12,430</span>
           </div>
         </div>
         
         <div class="quantity-selector">
           <button class="qty-btn" id="qty-minus">-</button>
-          <input type="text" class="qty-input" value="1" id="nft-quantity">
+          <input type="number" class="qty-input" value="1" id="nft-quantity" min="1" max="100">
           <button class="qty-btn" id="qty-plus">+</button>
         </div>
         
@@ -1331,10 +1331,6 @@
     const copyReferralBtn = document.getElementById('copy-referral-btn');
     const walletStatus = document.getElementById('wallet-status');
     const tonConnectButtonProfile = document.getElementById('ton-connect-button-profile');
-    const countdownDays = document.getElementById('days');
-    const countdownHours = document.getElementById('hours');
-    const countdownMinutes = document.getElementById('minutes');
-    const countdownSeconds = document.getElementById('seconds');
     const userNftsGrid = document.getElementById('user-nfts-grid');
     const profileModal = document.getElementById('profile-nft-modal');
     const closeProfileModal = document.getElementById('close-profile-modal');
@@ -1492,6 +1488,9 @@
       modalAvailable.textContent = formatNumber(available);
       qtyInput.value = 1;
       
+      // Set max quantity based on available
+      qtyInput.max = Math.min(available, 100);
+      
       // Disable buy button if sold out or wallet not connected
       buyBtn.disabled = isSoldOut || !wallet;
       buyBtn.textContent = isSoldOut ? "Sold Out" : "Buy Now";
@@ -1588,7 +1587,7 @@
 
     // Send transaction
     async function sendTransaction(amount) {
-      if (!wallet) return;
+      if (!wallet) return false;
       
       const tx = {
         validUntil: Math.floor(Date.now() / 1000) + 600,
@@ -1636,35 +1635,6 @@
         }
       }
       return false;
-    }
-    
-    // Market countdown timer
-    function startCountdown() {
-      const launchDate = new Date();
-      launchDate.setDate(launchDate.getDate() + 45); // Set to 45 days
-      
-      function updateCountdown() {
-        const now = new Date();
-        const diff = launchDate - now;
-        
-        if (diff <= 0) {
-          clearInterval(timer);
-          return;
-        }
-        
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-        
-        countdownDays.textContent = days.toString().padStart(2, '0');
-        countdownHours.textContent = hours.toString().padStart(2, '0');
-        countdownMinutes.textContent = minutes.toString().padStart(2, '0');
-        countdownSeconds.textContent = seconds.toString().padStart(2, '0');
-      }
-      
-      updateCountdown();
-      const timer = setInterval(updateCountdown, 1000);
     }
     
     // Simulate NFT purchase
@@ -1724,12 +1694,29 @@
       
       // Quantity selector
       qtyPlus.addEventListener('click', () => {
-        qtyInput.value = parseInt(qtyInput.value) + 1;
+        const currentValue = parseInt(qtyInput.value);
+        const maxValue = parseInt(qtyInput.max);
+        if (currentValue < maxValue) {
+          qtyInput.value = currentValue + 1;
+        }
       });
       
       qtyMinus.addEventListener('click', () => {
-        if (parseInt(qtyInput.value) > 1) {
-          qtyInput.value = parseInt(qtyInput.value) - 1;
+        const currentValue = parseInt(qtyInput.value);
+        if (currentValue > 1) {
+          qtyInput.value = currentValue - 1;
+        }
+      });
+      
+      // Input validation for quantity
+      qtyInput.addEventListener('change', () => {
+        const value = parseInt(qtyInput.value);
+        const maxValue = parseInt(qtyInput.max);
+        
+        if (isNaN(value) || value < 1) {
+          qtyInput.value = 1;
+        } else if (value > maxValue) {
+          qtyInput.value = maxValue;
         }
       });
       
@@ -1833,6 +1820,19 @@
           })
           .catch(err => {
             console.error('Failed to copy: ', err);
+            // Fallback for browsers that don't support clipboard API
+            const textarea = document.createElement('textarea');
+            textarea.value = link;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+              document.execCommand('copy');
+              alert('Referral link copied!');
+            } catch (err) {
+              console.error('Fallback copy failed: ', err);
+              alert('Failed to copy referral link');
+            }
+            document.body.removeChild(textarea);
           });
       });
       
@@ -1840,9 +1840,6 @@
       if (detectTelegramUser()) {
         console.log('Telegram user detected');
       }
-      
-      // Start market countdown
-      startCountdown();
     }
 
     // Initialize when DOM is loaded
