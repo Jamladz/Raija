@@ -1039,9 +1039,99 @@
         box-shadow: 0 0 0 0 rgba(76, 201, 240, 0);
       }
     }
+
+    /* Loading spinner */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Toast notifications */
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1100;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .toast.success {
+      border-left: 4px solid var(--success);
+    }
+
+    .toast.error {
+      border-left: 4px solid var(--danger);
+    }
+
+    .toast.warning {
+      border-left: 4px solid var(--warning);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .logo h1 {
+        font-size: 1.4rem;
+      }
+      
+      .wallet-btn {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+      
+      .nft-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      }
+      
+      .modal-content {
+        width: 98%;
+      }
+    }
+
+    /* Accessibility improvements */
+    button:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    input:focus {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Disabled state for buttons */
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
+  <!-- Toast notification container -->
+  <div id="toast" class="toast" style="display: none;"></div>
+
   <div class="container">
     <header>
       <div class="logo">
@@ -1229,7 +1319,7 @@
   </div>
 
   <script>
-    // Updated NFT data with The Seer as a free gift
+    // Enhanced NFT data with more details
     const nfts = [
       {
         id: 0,
@@ -1240,7 +1330,8 @@
         sold: 0,
         rarity: "Epic",
         rarityClass: "epic",
-        isFreeGift: true
+        isFreeGift: true,
+        description: "A mystical NFT with visionary powers, claim your free gift now!"
       },
       {
         id: 1,
@@ -1251,7 +1342,8 @@
         sold: 913,
         rarity: "Legendary",
         rarityClass: "legendary",
-        isFirstGift: true
+        isFirstGift: true,
+        description: "A rare collectible from the infamous Room 1408, limited edition!"
       },
       {
         id: 2,
@@ -1261,7 +1353,8 @@
         total: 25000,
         sold: 23424,
         rarity: "Common",
-        rarityClass: "common"
+        rarityClass: "common",
+        description: "A cool companion for your digital collection"
       },
       {
         id: 3,
@@ -1271,7 +1364,8 @@
         total: 20000,
         sold: 18643,
         rarity: "Common",
-        rarityClass: "common"
+        rarityClass: "common",
+        description: "Seal your promises in this digital capsule"
       },
       {
         id: 4,
@@ -1281,7 +1375,8 @@
         total: 10000,
         sold: 9754,
         rarity: "Rare",
-        rarityClass: "rare"
+        rarityClass: "rare",
+        description: "A rare digital frog with special powers"
       },
       {
         id: 5,
@@ -1291,11 +1386,12 @@
         total: 3000,
         sold: 2145,
         rarity: "Legendary",
-        rarityClass: "legendary"
+        rarityClass: "legendary",
+        description: "Ride through the blockchain with this legendary NFT"
       }
     ];
 
-    // Updated NFT images for profile view
+    // Profile NFT images
     const profileNftImages = {
       0: "https://i.suar.me/evjXP/m",
       1: "https://i.suar.me/PzlGp/m",
@@ -1343,6 +1439,7 @@
     const sellBtn = document.querySelector('.action-btn.sell');
     const shareBtn = document.querySelector('.action-btn.share');
     const upgradeBtn = document.getElementById('upgrade-btn');
+    const toast = document.getElementById('toast');
 
     // TON Connect variables
     let tonConnectUI;
@@ -1352,6 +1449,27 @@
     // User's purchased NFTs (stored in localStorage)
     let purchasedNFTs = JSON.parse(localStorage.getItem('purchasedNFTs')) || [];
     
+    // Current selected NFT for modal
+    let currentNFT = null;
+    
+    // Show toast notification
+    function showToast(message, type = 'success', duration = 3000) {
+      toast.textContent = message;
+      toast.className = `toast ${type}`;
+      toast.style.display = 'flex';
+      
+      setTimeout(() => {
+        toast.classList.add('show');
+      }, 10);
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+          toast.style.display = 'none';
+        }, 300);
+      }, duration);
+    }
+
     // Format numbers with commas
     function formatNumber(num) {
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -1360,6 +1478,15 @@
     // Render NFTs to the grid
     function renderNFTs(nftList) {
       nftGrid.innerHTML = '';
+      
+      if (nftList.length === 0) {
+        nftGrid.innerHTML = `
+          <div class="coming-soon" style="grid-column: 1/-1">
+            <p>No NFTs found for this filter</p>
+          </div>
+        `;
+        return;
+      }
       
       nftList.forEach(nft => {
         const available = nft.total - nft.sold;
@@ -1376,7 +1503,7 @@
             ${nft.price > 0 ? `
               <div class="nft-price">
                 <img src="https://i.suar.me/ppxV6/l" class="ton-icon-img" alt="TON">
-                ${nft.price}
+                ${nft.price.toFixed(2)}
               </div>
               <div class="progress-container">
                 <div class="progress-bar">
@@ -1415,7 +1542,7 @@
       // Check if already claimed
       const alreadyClaimed = purchasedNFTs.some(item => item.id === nft.id);
       if (alreadyClaimed) {
-        alert('You have already claimed this free NFT!');
+        showToast('You have already claimed this free NFT!', 'warning');
         return;
       }
       
@@ -1441,7 +1568,7 @@
       renderNFTs(nfts);
       renderUserNFTs();
       
-      alert(`🎉 You successfully claimed "${nft.name}" for free!`);
+      showToast(`🎉 You successfully claimed "${nft.name}" for free!`);
     }
     
     // Render user's NFTs in profile
@@ -1476,13 +1603,15 @@
 
     // Open NFT modal
     function openModal(nft) {
+      currentNFT = nft;
       const available = nft.total - nft.sold;
       const isSoldOut = available <= 0;
       
       modalImage.src = nft.image;
+      modalImage.alt = nft.name;
       modalName.textContent = nft.name;
       modalRarity.textContent = nft.rarity;
-      modalPrice.textContent = nft.price;
+      modalPrice.textContent = nft.price.toFixed(2);
       modalQuantity.textContent = formatNumber(nft.total);
       modalSold.textContent = formatNumber(nft.sold);
       modalAvailable.textContent = formatNumber(available);
@@ -1501,10 +1630,11 @@
     // Open profile NFT modal
     function openProfileModal(nft) {
       profileModalImage.src = profileNftImages[nft.id];
+      profileModalImage.alt = nft.name;
       profileModalName.textContent = nft.name;
       profileModalRarity.textContent = nft.rarity;
       profileModalPrice.textContent = nft.price.toFixed(2);
-      profileModalPurchaseDate.textContent = nft.purchaseDate;
+      profileModalPurchaseDate.textContent = nft.purchaseDate || new Date().toISOString().split('T')[0];
       
       profileModal.classList.add('active');
     }
@@ -1512,6 +1642,7 @@
     // Close modal
     function closeModalFunc() {
       modal.classList.remove('active');
+      currentNFT = null;
     }
     
     // Close profile modal
@@ -1573,6 +1704,7 @@
       } catch (error) {
         console.error('TON Connect initialization error:', error);
         walletStatus.innerHTML = '<span class="disconnected-status">Error connecting to wallet</span>';
+        showToast('Error connecting to wallet provider', 'error');
       }
     }
     
@@ -1587,7 +1719,15 @@
 
     // Send transaction
     async function sendTransaction(amount) {
-      if (!wallet) return false;
+      if (!wallet) {
+        showToast('Please connect your wallet first!', 'error');
+        return false;
+      }
+      
+      // Show loading state
+      const originalText = buyBtn.innerHTML;
+      buyBtn.innerHTML = `<span class="spinner"></span> Processing...`;
+      buyBtn.disabled = true;
       
       const tx = {
         validUntil: Math.floor(Date.now() / 1000) + 600,
@@ -1601,12 +1741,17 @@
 
       try {
         const result = await tonConnectUI.sendTransaction(tx);
-        alert(`✅ Payment sent successfully! (${amount} TON)`);
+        showToast(`✅ Payment sent successfully! (${amount} TON)`);
         closeModalFunc();
         return true;
       } catch (error) {
-        alert(`❌ Payment failed: ${error.message}`);
+        console.error('Transaction error:', error);
+        showToast(`❌ Payment failed: ${error.message}`, 'error');
         return false;
+      } finally {
+        // Restore button state
+        buyBtn.innerHTML = originalText;
+        buyBtn.disabled = false;
       }
     }
 
@@ -1727,12 +1872,10 @@
         const totalPrice = quantity * nftPrice;
         
         if (!wallet) {
-          alert('Please connect your wallet first!');
+          showToast('Please connect your wallet first!', 'error');
           return;
         }
         
-        // Get the current NFT data
-        const currentNFT = nfts.find(nft => nft.name === modalName.textContent);
         if (!currentNFT) return;
         
         // Send transaction
@@ -1741,26 +1884,26 @@
         if (success) {
           // Purchase NFT
           purchaseNFT(currentNFT, quantity);
-          alert(`🎉 You successfully purchased ${quantity} ${currentNFT.name} NFT(s)!`);
+          showToast(`🎉 You successfully purchased ${quantity} ${currentNFT.name} NFT(s)!`);
         }
       });
       
       // Profile NFT actions
       sendBtn.addEventListener('click', () => {
-        alert('Send feature coming soon!');
+        showToast('Send feature coming soon!', 'warning');
       });
       
       sellBtn.addEventListener('click', () => {
-        alert('Sell feature coming soon!');
+        showToast('Sell feature coming soon!', 'warning');
       });
       
       shareBtn.addEventListener('click', () => {
-        alert('Share feature coming soon!');
+        showToast('Share feature coming soon!', 'warning');
       });
       
       // Upgrade button
       upgradeBtn.addEventListener('click', () => {
-        alert('Upgrade feature coming soon!');
+        showToast('Upgrade feature coming soon!', 'warning');
       });
       
       // Bottom navigation
@@ -1816,7 +1959,7 @@
         const link = referralLink.textContent;
         navigator.clipboard.writeText(link)
           .then(() => {
-            alert('Referral link copied!');
+            showToast('Referral link copied to clipboard!');
           })
           .catch(err => {
             console.error('Failed to copy: ', err);
@@ -1827,10 +1970,10 @@
             textarea.select();
             try {
               document.execCommand('copy');
-              alert('Referral link copied!');
+              showToast('Referral link copied to clipboard!');
             } catch (err) {
               console.error('Fallback copy failed: ', err);
-              alert('Failed to copy referral link');
+              showToast('Failed to copy referral link', 'error');
             }
             document.body.removeChild(textarea);
           });
@@ -1840,6 +1983,11 @@
       if (detectTelegramUser()) {
         console.log('Telegram user detected');
       }
+
+      // Set initial page
+      shopPage.style.display = 'block';
+      profilePage.style.display = 'none';
+      marketPage.style.display = 'none';
     }
 
     // Initialize when DOM is loaded
