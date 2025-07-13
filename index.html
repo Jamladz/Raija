@@ -137,23 +137,32 @@
     const interval = 50; // update every 50ms
     const increments = 100 / (duration / interval);
     let progress = 0;
+    let timer;
 
-    const timer = setInterval(() => {
-      progress += increments;
-      progressBar.style.width = `${progress}%`;
-      
-      if (progress >= 100) {
-        clearInterval(timer);
-        // Redirect to the next page
-        window.location.href = "https://jamladz.github.io/Raija/home";
-      }
-    }, interval);
+    // Function to start the progress bar
+    const startProgressBar = () => {
+      timer = setInterval(() => {
+        progress += increments;
+        progressBar.style.width = `${Math.min(progress, 100)}%`;
+        
+        if (progress >= 100) {
+          clearInterval(timer);
+          // Redirect to the next page
+          window.location.href = "https://jamladz.github.io/Raija/home";
+        }
+      }, interval);
+    };
 
     // Start the progress bar after all animations are done (2.5s)
     setTimeout(() => {
-      progressBar.style.transition = "width 9.5s linear";
-      progressBar.style.width = "100%";
+      progressBar.style.transition = `width ${duration/1000 - 0.5}s linear`;
+      startProgressBar();
     }, 500);
+
+    // Clean up the interval if the page is unloaded before completion
+    window.addEventListener('beforeunload', () => {
+      if (timer) clearInterval(timer);
+    });
   </script>
 </body>
 </html>
