@@ -1611,10 +1611,16 @@
       }
     }
 
-    // Detect Telegram user
+    // Detect Telegram user and automatically pass username to bot
     function detectTelegramUser() {
       if (window.Telegram && window.Telegram.WebApp) {
-        const user = window.Telegram.WebApp.initDataUnsafe.user;
+        const webApp = window.Telegram.WebApp;
+        
+        // Initialize the web app
+        webApp.expand();
+        webApp.enableClosingConfirmation();
+        
+        const user = webApp.initDataUnsafe.user;
         if (user) {
           // Update profile
           const username = user.username ? `@${user.username}` : 'Telegram User';
@@ -1631,6 +1637,15 @@
           
           // Add marquee effect for Telegram username
           profileUsername.classList.add('marquee');
+          
+          // Automatically send username back to bot
+          if (webApp.platform !== 'unknown') {
+            webApp.sendData(JSON.stringify({
+              action: 'register_user',
+              username: user.username || 'user_' + user.id,
+              userId: user.id
+            }));
+          }
           
           return true;
         }
@@ -1836,9 +1851,9 @@
           });
       });
       
-      // Detect Telegram user
+      // Detect Telegram user and automatically pass username
       if (detectTelegramUser()) {
-        console.log('Telegram user detected');
+        console.log('Telegram user detected and username sent to bot');
       }
       
       // Start market countdown
