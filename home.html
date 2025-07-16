@@ -16,25 +16,26 @@
     }
     
     :root {
-      --primary: #ff6b6b;
-      --primary-dark: #ff4757;
-      --secondary: #ff9f43;
-      --dark: #1a1a2e;
-      --darker: #0d0d1a;
+      --primary: #00d4ff;
+      --primary-dark: #00b4d8;
+      --secondary: #90e0ef;
+      --accent: #caf0f8;
+      --dark: #03045e;
+      --darker: #023e8a;
       --light: #f8f9fa;
       --gray: #6c757d;
-      --success: #28a745;
-      --warning: #ffc107;
-      --danger: #dc3545;
-      --common: #6c757d;
-      --rare: #007bff;
-      --legendary: #ff6b6b;
-      --epic: #9c27b0;
+      --success: #4cc9f0;
+      --warning: #ffd166;
+      --danger: #ef476f;
+      --common: #48cae4;
+      --rare: #0096c7;
+      --legendary: #0077b6;
+      --epic: #023e8a;
       --border-radius: 16px;
       --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
       --transition: all 0.3s ease;
-      --gradient: linear-gradient(135deg, #ff6b6b 0%, #ff9f43 100%);
-      --icy-blue: #00d4ff;
+      --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      --icy-gradient: linear-gradient(135deg, #00d4ff 0%, #90e0ef 100%);
     }
     
     body {
@@ -61,7 +62,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 15px;
-      background: rgba(26, 26, 46, 0.95);
+      background: rgba(2, 62, 138, 0.95);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: var(--shadow);
@@ -80,14 +81,16 @@
       object-fit: cover;
       background: var(--primary);
       padding: 8px;
+      border: 2px solid var(--accent);
     }
     
     .logo h1 {
       font-size: 1.8rem;
       font-weight: 700;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      background: var(--icy-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
     }
     
     .wallet-section {
@@ -102,8 +105,8 @@
     }
     
     .wallet-btn {
-      background: var(--gradient);
-      color: white;
+      background: var(--icy-gradient);
+      color: var(--dark);
       border: none;
       padding: 10px 20px;
       border-radius: 50px;
@@ -118,7 +121,7 @@
     
     .wallet-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(255, 107, 107, 0.3);
+      box-shadow: 0 6px 15px rgba(0, 212, 255, 0.3);
     }
     
     .tabs {
@@ -136,10 +139,12 @@
       cursor: pointer;
       transition: var(--transition);
       font-weight: 500;
+      color: var(--light);
     }
     
     .tab.active, .tab:hover {
       background: var(--primary);
+      color: var(--dark);
     }
     
     .nft-grid {
@@ -163,7 +168,7 @@
     .nft-card:hover {
       transform: translateY(-8px);
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-      border-color: rgba(255, 255, 255, 0.3);
+      border-color: var(--primary);
     }
     
     .nft-image {
@@ -194,6 +199,7 @@
       display: inline-block;
       width: 100%;
       font-weight: 600;
+      color: white;
     }
     
     .common { background: var(--common); }
@@ -214,11 +220,11 @@
     
     .free-btn {
       width: 100%;
-      padding: 6px;
+      padding: 8px;
       background: var(--success);
-      color: white;
+      color: var(--dark);
       border: none;
-      border-radius: 4px;
+      border-radius: 6px;
       font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
@@ -227,7 +233,8 @@
     }
     
     .free-btn:hover {
-      background: #218838;
+      background: #4cc9f0;
+      transform: translateY(-2px);
     }
     
     .sold-out {
@@ -254,7 +261,7 @@
     
     .progress-fill {
       height: 100%;
-      background: var(--primary);
+      background: var(--icy-gradient);
       border-radius: 4px;
       transition: width 0.5s ease;
     }
@@ -276,7 +283,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(26, 26, 46, 0.95);
+      background: rgba(2, 62, 138, 0.95);
       backdrop-filter: blur(10px);
       display: flex;
       justify-content: space-around;
@@ -356,8 +363,8 @@
       transition: var(--transition);
       max-height: 90vh;
       overflow-y: auto;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--primary);
+      box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
     }
     
     .modal.active .modal-content {
@@ -375,7 +382,7 @@
     
     .modal-header h2 {
       font-size: 1.3rem;
-      background: var(--gradient);
+      background: var(--icy-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -398,6 +405,7 @@
     .close-btn:hover {
       background: rgba(255, 255, 255, 0.1);
       transform: rotate(90deg);
+      color: var(--primary);
     }
     
     .modal-body {
@@ -410,7 +418,7 @@
       margin-bottom: 20px;
       max-height: 250px;
       object-fit: cover;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--primary);
     }
     
     .modal-details {
@@ -418,6 +426,7 @@
       background: rgba(255, 255, 255, 0.05);
       border-radius: var(--border-radius);
       padding: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .detail-row {
@@ -434,6 +443,7 @@
     
     .detail-value {
       font-weight: 600;
+      color: var(--light);
     }
     
     .quantity-selector {
@@ -479,8 +489,8 @@
     .modal-buy-btn {
       width: 100%;
       padding: 14px;
-      background: var(--gradient);
-      color: white;
+      background: var(--icy-gradient);
+      color: var(--dark);
       border: none;
       border-radius: 10px;
       font-size: 1.1rem;
@@ -491,12 +501,12 @@
       justify-content: center;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+      box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
     }
     
     .modal-buy-btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
+      box-shadow: 0 8px 20px rgba(0, 212, 255, 0.5);
     }
     
     .modal-buy-btn:disabled {
@@ -504,6 +514,7 @@
       cursor: not-allowed;
       transform: none;
       box-shadow: none;
+      color: white;
     }
     
     .ton-icon {
@@ -562,7 +573,7 @@
       object-fit: cover;
       margin: 0 auto 12px;
       border: 3px solid var(--primary);
-      box-shadow: 0 0 15px rgba(255, 107, 107, 0.4);
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
     }
     
     .username-container {
@@ -606,6 +617,7 @@
     
     .info-value {
       font-weight: 600;
+      color: var(--light);
     }
     
     .referral-section {
@@ -639,11 +651,12 @@
       text-overflow: ellipsis;
       text-align: right;
       font-size: 0.85rem;
+      color: var(--light);
     }
     
     .copy-btn {
       background: var(--primary);
-      color: white;
+      color: var(--dark);
       border: none;
       padding: 10px 15px;
       cursor: pointer;
@@ -677,8 +690,8 @@
     
     .ton-connect-button {
       width: 100%;
-      background: var(--gradient);
-      color: white;
+      background: var(--icy-gradient);
+      color: var(--dark);
       border: none;
       padding: 12px;
       border-radius: 10px;
@@ -686,16 +699,17 @@
       font-weight: 600;
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+      box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
     }
     
     .ton-connect-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
+      box-shadow: 0 8px 20px rgba(0, 212, 255, 0.5);
     }
     
     .ton-connect-button.connected {
       background: var(--success);
+      color: white;
     }
     
     .wallet-status {
@@ -818,7 +832,7 @@
     .user-nft-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      border-color: rgba(255, 255, 255, 0.3);
+      border-color: var(--primary);
     }
     
     .user-nft-image {
@@ -852,6 +866,7 @@
       display: inline-block;
       width: 100%;
       font-weight: 600;
+      color: white;
     }
     
     .profile-nft-modal .modal-content {
@@ -882,7 +897,7 @@
     }
     
     .action-btn:hover {
-      background: rgba(255, 107, 107, 0.2);
+      background: rgba(0, 212, 255, 0.2);
       transform: translateY(-3px);
     }
     
@@ -930,7 +945,7 @@
       top: 8px;
       left: 8px;
       background: var(--success);
-      color: white;
+      color: var(--dark);
       font-weight: bold;
       font-size: 0.6rem;
       padding: 2px 8px;
@@ -965,7 +980,7 @@
     .coming-soon-text {
       font-size: 2rem;
       font-weight: bold;
-      color: var(--icy-blue);
+      color: var(--primary);
       text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
       margin-bottom: 20px;
     }
@@ -974,8 +989,8 @@
     .upgrade-btn {
       width: 100%;
       padding: 10px;
-      background: var(--primary);
-      color: white;
+      background: var(--icy-gradient);
+      color: var(--dark);
       border: none;
       border-radius: 8px;
       font-size: 0.9rem;
@@ -990,8 +1005,39 @@
     }
     
     .upgrade-btn:hover {
-      background: var(--primary-dark);
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
       transform: translateY(-2px);
+    }
+    
+    /* Glow effects */
+    .glow {
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+      }
+      to {
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
+      }
+    }
+    
+    /* Pulse animation for free gifts */
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(76, 201, 240, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(76, 201, 240, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(76, 201, 240, 0);
+      }
     }
   </style>
 </head>
@@ -999,7 +1045,7 @@
   <div class="container">
     <header>
       <div class="logo">
-        <img src="https://i.suar.me/xpLaV/l" alt="Giftoo Logo">
+        <img src="https://i.suar.me/3AVmL/l" alt="Giftoo Logo">
         <h1>Giftoo</h1>
       </div>
       <div class="wallet-section">
@@ -1112,17 +1158,17 @@
           </div>
           <div class="detail-row">
             <span class="detail-label">Sold:</span>
-            <span class="detail-value" id="modal-nft-sold">12570</span>
+            <span class="detail-value" id="modal-nft-sold">12,570</span>
           </div>
           <div class="detail-row">
             <span class="detail-label">Available:</span>
-            <span class="detail-value" id="modal-nft-available">12430</span>
+            <span class="detail-value" id="modal-nft-available">12,430</span>
           </div>
         </div>
         
         <div class="quantity-selector">
           <button class="qty-btn" id="qty-minus">-</button>
-          <input type="text" class="qty-input" value="1" id="nft-quantity">
+          <input type="number" class="qty-input" value="1" id="nft-quantity" min="1" max="100">
           <button class="qty-btn" id="qty-plus">+</button>
         </div>
         
@@ -1285,10 +1331,6 @@
     const copyReferralBtn = document.getElementById('copy-referral-btn');
     const walletStatus = document.getElementById('wallet-status');
     const tonConnectButtonProfile = document.getElementById('ton-connect-button-profile');
-    const countdownDays = document.getElementById('days');
-    const countdownHours = document.getElementById('hours');
-    const countdownMinutes = document.getElementById('minutes');
-    const countdownSeconds = document.getElementById('seconds');
     const userNftsGrid = document.getElementById('user-nfts-grid');
     const profileModal = document.getElementById('profile-nft-modal');
     const closeProfileModal = document.getElementById('close-profile-modal');
@@ -1325,7 +1367,7 @@
         const percentageSold = (nft.sold / nft.total) * 100;
         
         const nftCard = document.createElement('div');
-        nftCard.className = `nft-card ${nft.isFirstGift ? 'first-gift' : ''} ${nft.isFreeGift ? 'free-gift' : ''}`;
+        nftCard.className = `nft-card ${nft.isFirstGift ? 'first-gift' : ''} ${nft.isFreeGift ? 'free-gift pulse' : ''}`;
         nftCard.innerHTML = `
           <img src="${nft.image}" alt="${nft.name}" class="nft-image">
           <div class="nft-info">
@@ -1446,6 +1488,9 @@
       modalAvailable.textContent = formatNumber(available);
       qtyInput.value = 1;
       
+      // Set max quantity based on available
+      qtyInput.max = Math.min(available, 100);
+      
       // Disable buy button if sold out or wallet not connected
       buyBtn.disabled = isSoldOut || !wallet;
       buyBtn.textContent = isSoldOut ? "Sold Out" : "Buy Now";
@@ -1542,7 +1587,7 @@
 
     // Send transaction
     async function sendTransaction(amount) {
-      if (!wallet) return;
+      if (!wallet) return false;
       
       const tx = {
         validUntil: Math.floor(Date.now() / 1000) + 600,
@@ -1590,35 +1635,6 @@
         }
       }
       return false;
-    }
-    
-    // Market countdown timer
-    function startCountdown() {
-      const launchDate = new Date();
-      launchDate.setDate(launchDate.getDate() + 45); // Set to 45 days
-      
-      function updateCountdown() {
-        const now = new Date();
-        const diff = launchDate - now;
-        
-        if (diff <= 0) {
-          clearInterval(timer);
-          return;
-        }
-        
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-        
-        countdownDays.textContent = days.toString().padStart(2, '0');
-        countdownHours.textContent = hours.toString().padStart(2, '0');
-        countdownMinutes.textContent = minutes.toString().padStart(2, '0');
-        countdownSeconds.textContent = seconds.toString().padStart(2, '0');
-      }
-      
-      updateCountdown();
-      const timer = setInterval(updateCountdown, 1000);
     }
     
     // Simulate NFT purchase
@@ -1678,12 +1694,29 @@
       
       // Quantity selector
       qtyPlus.addEventListener('click', () => {
-        qtyInput.value = parseInt(qtyInput.value) + 1;
+        const currentValue = parseInt(qtyInput.value);
+        const maxValue = parseInt(qtyInput.max);
+        if (currentValue < maxValue) {
+          qtyInput.value = currentValue + 1;
+        }
       });
       
       qtyMinus.addEventListener('click', () => {
-        if (parseInt(qtyInput.value) > 1) {
-          qtyInput.value = parseInt(qtyInput.value) - 1;
+        const currentValue = parseInt(qtyInput.value);
+        if (currentValue > 1) {
+          qtyInput.value = currentValue - 1;
+        }
+      });
+      
+      // Input validation for quantity
+      qtyInput.addEventListener('change', () => {
+        const value = parseInt(qtyInput.value);
+        const maxValue = parseInt(qtyInput.max);
+        
+        if (isNaN(value) || value < 1) {
+          qtyInput.value = 1;
+        } else if (value > maxValue) {
+          qtyInput.value = maxValue;
         }
       });
       
@@ -1787,6 +1820,19 @@
           })
           .catch(err => {
             console.error('Failed to copy: ', err);
+            // Fallback for browsers that don't support clipboard API
+            const textarea = document.createElement('textarea');
+            textarea.value = link;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+              document.execCommand('copy');
+              alert('Referral link copied!');
+            } catch (err) {
+              console.error('Fallback copy failed: ', err);
+              alert('Failed to copy referral link');
+            }
+            document.body.removeChild(textarea);
           });
       });
       
@@ -1794,9 +1840,6 @@
       if (detectTelegramUser()) {
         console.log('Telegram user detected');
       }
-      
-      // Start market countdown
-      startCountdown();
     }
 
     // Initialize when DOM is loaded
