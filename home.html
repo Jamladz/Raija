@@ -16,26 +16,25 @@
     }
     
     :root {
-      --primary: #00d4ff;
-      --primary-dark: #00b4d8;
-      --secondary: #90e0ef;
-      --accent: #caf0f8;
-      --dark: #03045e;
-      --darker: #023e8a;
+      --primary: #ff6b6b;
+      --primary-dark: #ff4757;
+      --secondary: #ff9f43;
+      --dark: #1a1a2e;
+      --darker: #0d0d1a;
       --light: #f8f9fa;
       --gray: #6c757d;
-      --success: #4cc9f0;
-      --warning: #ffd166;
-      --danger: #ef476f;
-      --common: #48cae4;
-      --rare: #0096c7;
-      --legendary: #0077b6;
-      --epic: #023e8a;
+      --success: #28a745;
+      --warning: #ffc107;
+      --danger: #dc3545;
+      --common: #6c757d;
+      --rare: #007bff;
+      --legendary: #ff6b6b;
+      --epic: #9c27b0;
       --border-radius: 16px;
       --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
       --transition: all 0.3s ease;
-      --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      --icy-gradient: linear-gradient(135deg, #00d4ff 0%, #90e0ef 100%);
+      --gradient: linear-gradient(135deg, #ff6b6b 0%, #ff9f43 100%);
+      --icy-blue: #00d4ff;
     }
     
     body {
@@ -62,7 +61,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 15px;
-      background: rgba(2, 62, 138, 0.95);
+      background: rgba(26, 26, 46, 0.95);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: var(--shadow);
@@ -81,16 +80,14 @@
       object-fit: cover;
       background: var(--primary);
       padding: 8px;
-      border: 2px solid var(--accent);
     }
     
     .logo h1 {
       font-size: 1.8rem;
       font-weight: 700;
-      background: var(--icy-gradient);
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
     }
     
     .wallet-section {
@@ -105,8 +102,8 @@
     }
     
     .wallet-btn {
-      background: var(--icy-gradient);
-      color: var(--dark);
+      background: var(--gradient);
+      color: white;
       border: none;
       padding: 10px 20px;
       border-radius: 50px;
@@ -121,7 +118,7 @@
     
     .wallet-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(0, 212, 255, 0.3);
+      box-shadow: 0 6px 15px rgba(255, 107, 107, 0.3);
     }
     
     .tabs {
@@ -139,12 +136,10 @@
       cursor: pointer;
       transition: var(--transition);
       font-weight: 500;
-      color: var(--light);
     }
     
     .tab.active, .tab:hover {
       background: var(--primary);
-      color: var(--dark);
     }
     
     .nft-grid {
@@ -168,7 +163,7 @@
     .nft-card:hover {
       transform: translateY(-8px);
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-      border-color: var(--primary);
+      border-color: rgba(255, 255, 255, 0.3);
     }
     
     .nft-image {
@@ -199,7 +194,6 @@
       display: inline-block;
       width: 100%;
       font-weight: 600;
-      color: white;
     }
     
     .common { background: var(--common); }
@@ -220,11 +214,11 @@
     
     .free-btn {
       width: 100%;
-      padding: 8px;
+      padding: 6px;
       background: var(--success);
-      color: var(--dark);
+      color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 4px;
       font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
@@ -233,8 +227,7 @@
     }
     
     .free-btn:hover {
-      background: #4cc9f0;
-      transform: translateY(-2px);
+      background: #218838;
     }
     
     .sold-out {
@@ -261,7 +254,7 @@
     
     .progress-fill {
       height: 100%;
-      background: var(--icy-gradient);
+      background: var(--primary);
       border-radius: 4px;
       transition: width 0.5s ease;
     }
@@ -283,7 +276,7 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(2, 62, 138, 0.95);
+      background: rgba(26, 26, 46, 0.95);
       backdrop-filter: blur(10px);
       display: flex;
       justify-content: space-around;
@@ -363,8 +356,8 @@
       transition: var(--transition);
       max-height: 90vh;
       overflow-y: auto;
-      border: 1px solid var(--primary);
-      box-shadow: 0 10px 40px rgba(0, 212, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     }
     
     .modal.active .modal-content {
@@ -382,7 +375,7 @@
     
     .modal-header h2 {
       font-size: 1.3rem;
-      background: var(--icy-gradient);
+      background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -405,7 +398,6 @@
     .close-btn:hover {
       background: rgba(255, 255, 255, 0.1);
       transform: rotate(90deg);
-      color: var(--primary);
     }
     
     .modal-body {
@@ -418,7 +410,7 @@
       margin-bottom: 20px;
       max-height: 250px;
       object-fit: cover;
-      border: 1px solid var(--primary);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .modal-details {
@@ -426,7 +418,6 @@
       background: rgba(255, 255, 255, 0.05);
       border-radius: var(--border-radius);
       padding: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .detail-row {
@@ -443,7 +434,6 @@
     
     .detail-value {
       font-weight: 600;
-      color: var(--light);
     }
     
     .quantity-selector {
@@ -489,8 +479,8 @@
     .modal-buy-btn {
       width: 100%;
       padding: 14px;
-      background: var(--icy-gradient);
-      color: var(--dark);
+      background: var(--gradient);
+      color: white;
       border: none;
       border-radius: 10px;
       font-size: 1.1rem;
@@ -501,12 +491,12 @@
       justify-content: center;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
     }
     
     .modal-buy-btn:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0, 212, 255, 0.5);
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
     }
     
     .modal-buy-btn:disabled {
@@ -514,7 +504,6 @@
       cursor: not-allowed;
       transform: none;
       box-shadow: none;
-      color: white;
     }
     
     .ton-icon {
@@ -573,7 +562,7 @@
       object-fit: cover;
       margin: 0 auto 12px;
       border: 3px solid var(--primary);
-      box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+      box-shadow: 0 0 15px rgba(255, 107, 107, 0.4);
     }
     
     .username-container {
@@ -617,7 +606,6 @@
     
     .info-value {
       font-weight: 600;
-      color: var(--light);
     }
     
     .referral-section {
@@ -651,12 +639,11 @@
       text-overflow: ellipsis;
       text-align: right;
       font-size: 0.85rem;
-      color: var(--light);
     }
     
     .copy-btn {
       background: var(--primary);
-      color: var(--dark);
+      color: white;
       border: none;
       padding: 10px 15px;
       cursor: pointer;
@@ -690,8 +677,8 @@
     
     .ton-connect-button {
       width: 100%;
-      background: var(--icy-gradient);
-      color: var(--dark);
+      background: var(--gradient);
+      color: white;
       border: none;
       padding: 12px;
       border-radius: 10px;
@@ -699,17 +686,16 @@
       font-weight: 600;
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+      box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
     }
     
     .ton-connect-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 212, 255, 0.5);
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
     }
     
     .ton-connect-button.connected {
       background: var(--success);
-      color: white;
     }
     
     .wallet-status {
@@ -832,7 +818,7 @@
     .user-nft-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      border-color: var(--primary);
+      border-color: rgba(255, 255, 255, 0.3);
     }
     
     .user-nft-image {
@@ -866,7 +852,6 @@
       display: inline-block;
       width: 100%;
       font-weight: 600;
-      color: white;
     }
     
     .profile-nft-modal .modal-content {
@@ -897,7 +882,7 @@
     }
     
     .action-btn:hover {
-      background: rgba(0, 212, 255, 0.2);
+      background: rgba(255, 107, 107, 0.2);
       transform: translateY(-3px);
     }
     
@@ -945,7 +930,7 @@
       top: 8px;
       left: 8px;
       background: var(--success);
-      color: var(--dark);
+      color: white;
       font-weight: bold;
       font-size: 0.6rem;
       padding: 2px 8px;
@@ -980,7 +965,7 @@
     .coming-soon-text {
       font-size: 2rem;
       font-weight: bold;
-      color: var(--primary);
+      color: var(--icy-blue);
       text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
       margin-bottom: 20px;
     }
@@ -989,8 +974,8 @@
     .upgrade-btn {
       width: 100%;
       padding: 10px;
-      background: var(--icy-gradient);
-      color: var(--dark);
+      background: var(--primary);
+      color: white;
       border: none;
       border-radius: 8px;
       font-size: 0.9rem;
@@ -1005,39 +990,8 @@
     }
     
     .upgrade-btn:hover {
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
+      background: var(--primary-dark);
       transform: translateY(-2px);
-    }
-    
-    /* Glow effects */
-    .glow {
-      animation: glow 2s ease-in-out infinite alternate;
-    }
-    
-    @keyframes glow {
-      from {
-        box-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
-      }
-      to {
-        box-shadow: 0 0 20px rgba(0, 212, 255, 0.8);
-      }
-    }
-    
-    /* Pulse animation for free gifts */
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(76, 201, 240, 0.7);
-      }
-      70% {
-        box-shadow: 0 0 0 10px rgba(76, 201, 240, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(76, 201, 240, 0);
-      }
     }
   </style>
 </head>
@@ -1371,7 +1325,7 @@
         const percentageSold = (nft.sold / nft.total) * 100;
         
         const nftCard = document.createElement('div');
-        nftCard.className = `nft-card ${nft.isFirstGift ? 'first-gift' : ''} ${nft.isFreeGift ? 'free-gift pulse' : ''}`;
+        nftCard.className = `nft-card ${nft.isFirstGift ? 'first-gift' : ''} ${nft.isFreeGift ? 'free-gift' : ''}`;
         nftCard.innerHTML = `
           <img src="${nft.image}" alt="${nft.name}" class="nft-image">
           <div class="nft-info">
