@@ -1045,7 +1045,7 @@
   <div class="container">
     <header>
       <div class="logo">
-        <img src="https://i.suar.me/0AYv7/l" alt="Giftoo Logo">
+        <img src="https://i.suar.me/xpLaV/l" alt="Giftoo Logo">
         <h1>Giftoo</h1>
       </div>
       <div class="wallet-section">
@@ -1611,16 +1611,10 @@
       }
     }
 
-    // Detect Telegram user and automatically pass username to bot
+    // Detect Telegram user
     function detectTelegramUser() {
       if (window.Telegram && window.Telegram.WebApp) {
-        const webApp = window.Telegram.WebApp;
-        
-        // Initialize the web app
-        webApp.expand();
-        webApp.enableClosingConfirmation();
-        
-        const user = webApp.initDataUnsafe.user;
+        const user = window.Telegram.WebApp.initDataUnsafe.user;
         if (user) {
           // Update profile
           const username = user.username ? `@${user.username}` : 'Telegram User';
@@ -1637,15 +1631,6 @@
           
           // Add marquee effect for Telegram username
           profileUsername.classList.add('marquee');
-          
-          // Automatically send username back to bot
-          if (webApp.platform !== 'unknown') {
-            webApp.sendData(JSON.stringify({
-              action: 'register_user',
-              username: user.username || 'user_' + user.id,
-              userId: user.id
-            }));
-          }
           
           return true;
         }
@@ -1851,9 +1836,9 @@
           });
       });
       
-      // Detect Telegram user and automatically pass username
+      // Detect Telegram user
       if (detectTelegramUser()) {
-        console.log('Telegram user detected and username sent to bot');
+        console.log('Telegram user detected');
       }
       
       // Start market countdown
