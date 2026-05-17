@@ -1,0 +1,183 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "role": { "type": "string", "enum": ["customer", "restaurant_admin", "super_admin"] },
+        "points": { "type": "number" },
+        "createdAt": { "type": "string", "format": "timestamp" },
+        "updatedAt": { "type": "string", "format": "timestamp" }
+      },
+      "required": ["uid", "role", "createdAt"]
+    },
+    "Restaurant": {
+      "title": "Restaurant",
+      "description": "Restaurant details",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "coverImage": { "type": "string" },
+        "logo": { "type": "string" },
+        "location": { "type": "string" },
+        "phone": { "type": "string" },
+        "hours": { "type": "string" },
+        "isOpen": { "type": "boolean" },
+        "deliveryFee": { "type": "number" },
+        "deliveryTime": { "type": "string" },
+        "rating": { "type": "number" },
+        "reviewCount": { "type": "number" },
+        "adminId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "timestamp" },
+        "updatedAt": { "type": "string", "format": "timestamp" }
+      },
+      "required": ["name", "adminId", "createdAt"]
+    },
+    "MenuItem": {
+      "title": "Menu Item",
+      "description": "Food item within a restaurant",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "category": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "price": { "type": "number" },
+        "image": { "type": "string" },
+        "rating": { "type": "number" },
+        "createdAt": { "type": "string", "format": "timestamp" },
+        "updatedAt": { "type": "string", "format": "timestamp" }
+      },
+      "required": ["restaurantId", "category", "name", "price", "createdAt"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer order",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "restaurantId": { "type": "string" },
+        "items": { "type": "array" },
+        "totalAmount": { "type": "number" },
+        "deliveryFee": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "preparing", "delivering", "completed", "cancelled"] },
+        "type": { "type": "string", "enum": ["delivery", "pickup", "dine_in"] },
+        "paymentMethod": { "type": "string" },
+        "createdAt": { "type": "string", "format": "timestamp" },
+        "updatedAt": { "type": "string", "format": "timestamp" }
+      },
+      "required": ["userId", "restaurantId", "items", "totalAmount", "status", "type", "createdAt"]
+    },
+    "Reservation": {
+      "title": "Table Reservation",
+      "description": "Reservation details",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "restaurantId": { "type": "string" },
+        "guestsCount": { "type": "number" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "cancelled"] },
+        "createdAt": { "type": "string", "format": "timestamp" },
+        "updatedAt": { "type": "string", "format": "timestamp" }
+      },
+      "required": ["userId", "restaurantId", "guestsCount", "date", "time", "status", "createdAt"]
+    },
+    "Subscription": {
+      "title": "Restaurant Subscription",
+      "description": "Subscription tracker",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "status": { "type": "string", "enum": ["trial", "active", "expired", "suspended"] },
+        "startDate": { "type": "string", "format": "timestamp" },
+        "endDate": { "type": "string", "format": "timestamp" },
+        "plan": { "type": "string", "enum": ["free", "pro", "premium"] },
+        "createdAt": { "type": "string", "format": "timestamp" },
+        "updatedAt": { "type": "string", "format": "timestamp" }
+      },
+      "required": ["restaurantId", "status", "startDate", "endDate", "plan", "createdAt"]
+    },
+    "Notification": {
+      "title": "In-App Notification",
+      "description": "Notification for user or restaurant",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "read": { "type": "boolean" },
+        "type": { "type": "string", "enum": ["order", "promotion", "subscription", "reservation"] },
+        "linkId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "timestamp" }
+      },
+      "required": ["title", "body", "read", "type", "createdAt"]
+    },
+    "Review": {
+      "title": "Restaurant Review",
+      "description": "Customer review of a restaurant",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "restaurantId": { "type": "string" },
+        "rating": { "type": "number" },
+        "comment": { "type": "string" },
+        "createdAt": { "type": "string", "format": "timestamp" }
+      },
+      "required": ["userId", "restaurantId", "rating", "createdAt"]
+    },
+    "Favorite": {
+      "title": "Favorite Restaurant",
+      "description": "User's favorite restaurant",
+      "type": "object",
+      "properties": {
+        "restaurantId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "timestamp" }
+      },
+      "required": ["restaurantId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profiles"
+    },
+    "/users/{userId}/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/Notification" },
+      "description": "User's notifications"
+    },
+    "/users/{userId}/favorites/{favoriteId}": {
+      "schema": { "$ref": "#/entities/Favorite" },
+      "description": "User's favorite restaurants"
+    },
+    "/restaurants/{restaurantId}": {
+      "schema": { "$ref": "#/entities/Restaurant" },
+      "description": "Restaurants"
+    },
+    "/restaurants/{restaurantId}/menuItems/{itemId}": {
+      "schema": { "$ref": "#/entities/MenuItem" },
+      "description": "Menu items for a restaurant"
+    },
+    "/restaurants/{restaurantId}/reviews/{reviewId}": {
+      "schema": { "$ref": "#/entities/Review" },
+      "description": "Restaurant reviews"
+    },
+    "/subscriptions/{restaurantId}": {
+      "schema": { "$ref": "#/entities/Subscription" },
+      "description": "Restaurant subscriptions. The ID is the same as restaurantId."
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Orders across all restaurants"
+    },
+    "/reservations/{reservationId}": {
+      "schema": { "$ref": "#/entities/Reservation" },
+      "description": "Table reservations"
+    }
+  }
+}

@@ -1,0 +1,168 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ---- GLOBALS ----
+    match /{document=**} { allow read, write: if false; }
+
+    function isSignedIn() { return request.auth != null; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isOwner(uid) { return isSignedIn() && request.auth.uid == uid; }
+    
+    // Check if user is restaurant admin
+    function isRestaurantAdmin(restId) {
+      return isSignedIn() && restId != null && exists(/databases/$(database)/documents/restaurants/$(restId)) &&
+             get(/databases/$(database)/documents/restaurants/$(restId)).data.adminId == request.auth.uid;
+    }
+
+    // Role checks (assuming we store 'role' in users collection)
+    function isSuperAdmin() {
+      return isSignedIn() && ('email' in request.auth.token) && 
+             (request.auth.token.email == 'sekanedrmessaif@gmail.com' || request.auth.token.email == 'Sekanedrmessaif@gmail.com');
+    }
+
+    // ---- VALIDATORS ----
+    function isValidUser(data, uid) {
+      return data.keys().hasAll(['uid', 'role', 'createdAt']) &&
+             data.uid == uid &&
+             data.role in ['customer', 'restaurant_admin', 'super_admin'] &&
+             data.createdAt == request.time;
+    }
+    
+    function isValidUserUpdate(data, existingData, uid) {
+      return data.role == existingData.role && data.uid == existingData.uid &&
+             data.createdAt == existingData.createdAt && data.updatedAt == request.time;
+    }
+
+    function isValidRestaurant(data) {
+      return data.keys().hasAll(['name', 'adminId', 'createdAt', 'location', 'phone']) &&
+             data.name is string &&
+             data.adminId == request.auth.uid &&
+             data.createdAt == request.time;
+    }
+    
+    function isValidRestaurantUpdate(data, existingData) {
+      return data.adminId == existingData.adminId &&
+             data.createdAt == existingData.createdAt &&
+             data.updatedAt == request.time;
+    }
+
+    function isValidMenuItem(data, restId) {
+      return data.keys().hasAll(['restaurantId', 'category', 'name', 'price', 'createdAt']) &&
+             data.restaurantId == restId &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 200 &&
+             data.price is number && data.price >= 0 &&
+             data.createdAt == request.time;
+    }
+
+    function isValidMenuItemUpdate(data, existingData, restId) {
+      return data.restaurantId == existingData.restaurantId &&
+             data.createdAt == existingData.createdAt &&
+             data.updatedAt == request.time;
+    }
+    
+    function isValidOrder(data) {
+      return data.keys().hasAll(['userId', 'restaurantId', 'items', 'totalAmount', 'status', 'type', 'createdAt']) &&
+             data.userId == request.auth.uid &&
+             data.status == 'pending' &&
+             data.createdAt == request.time;
+    }
+
+    function isValidReservation(data) {
+      return data.keys().hasAll(['userId', 'restaurantId', 'guestsCount', 'date', 'time', 'status', 'createdAt']) &&
+             data.userId == request.auth.uid &&
+             data.status == 'pending' &&
+             data.guestsCount is number && data.guestsCount > 0 &&
+             data.createdAt == request.time;
+    }
+
+    // ---- RULES ----
+    
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isSuperAdmin();
+      allow list: if isSuperAdmin();
+      allow create: if true; // allow user registration
+      allow update: if (isOwner(userId) || isSuperAdmin()) && isValidUserUpdate(incoming(), existing(), userId);
+      
+      match /notifications/{notificationId} {
+        allow get, list: if isOwner(userId) || isSuperAdmin();
+        allow create: if isSuperAdmin();
+        allow update: if isOwner(userId) && incoming().diff(existing()).affectedKeys().hasOnly(['read', 'updatedAt']);
+        allow delete: if isOwner(userId) || isSuperAdmin();
+      }
+
+      match /favorites/{favoriteId} {
+        allow get, list: if isOwner(userId) || isSuperAdmin();
+        allow create: if isOwner(userId);
+        allow delete: if isOwner(userId) || isSuperAdmin();
+      }
+    }
+
+    match /{path=**}/offers/{offerId} {
+      allow read: if true;
+    }
+
+    match /subscriptions/{restaurantId} {
+      allow read: if isRestaurantAdmin(restaurantId) || isSuperAdmin();
+      allow create: if isSignedIn() && (isRestaurantAdmin(restaurantId) || isSuperAdmin());
+      allow update, delete: if isSuperAdmin();
+    }
+
+    match /restaurants/{restaurantId} {
+      allow read: if true; // Publicly readable
+      allow create: if isSignedIn() && isValidId(restaurantId) && isValidRestaurant(incoming());
+      allow update: if (isRestaurantAdmin(restaurantId) || isSuperAdmin()) && isValidId(restaurantId) && isValidRestaurantUpdate(incoming(), existing());
+      allow delete: if isSuperAdmin();
+
+      match /menuItems/{itemId} {
+        allow read: if true;
+        allow create: if (isRestaurantAdmin(restaurantId) || isSuperAdmin()) && isValidId(itemId) && isValidMenuItem(incoming(), restaurantId);
+        allow update: if (isRestaurantAdmin(restaurantId) || isSuperAdmin()) && isValidId(itemId) && isValidMenuItemUpdate(incoming(), existing(), restaurantId);
+        allow delete: if (isRestaurantAdmin(restaurantId) || isSuperAdmin());
+      }
+      
+      match /offers/{offerId} {
+        allow read: if true;
+        allow create: if (isRestaurantAdmin(restaurantId) || isSuperAdmin());
+        allow update: if (isRestaurantAdmin(restaurantId) || isSuperAdmin());
+        allow delete: if (isRestaurantAdmin(restaurantId) || isSuperAdmin());
+      }
+      
+      match /reviews/{reviewId} {
+        allow read: if true;
+        allow create: if isSignedIn() && incoming().restaurantId == restaurantId && incoming().userId == request.auth.uid;
+        allow update: if isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['comment', 'rating', 'updatedAt']);
+        allow delete: if isOwner(existing().userId) || isSuperAdmin();
+      }
+    }
+
+    match /orders/{orderId} {
+      allow read: if isSignedIn() && (
+        isOwner(resource.data.userId) || 
+        isRestaurantAdmin(resource.data.restaurantId) || 
+        isSuperAdmin()
+      );
+      allow create: if isSignedIn() && isValidId(orderId) && isValidOrder(incoming()) && exists(/databases/$(database)/documents/restaurants/$(incoming().restaurantId));
+      allow update: if isSignedIn() && isValidId(orderId) && (
+        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) && existing().status == 'pending' && incoming().status == 'cancelled' && incoming().updatedAt == request.time) ||
+        (isRestaurantAdmin(existing().restaurantId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) && incoming().updatedAt == request.time) ||
+        isSuperAdmin()
+      );
+    }
+
+    match /reservations/{reservationId} {
+      allow read: if isSignedIn() && (
+        isOwner(resource.data.userId) || 
+        isRestaurantAdmin(resource.data.restaurantId) || 
+        isSuperAdmin()
+      );
+      allow create: if isSignedIn() && isValidId(reservationId) && isValidReservation(incoming()) && exists(/databases/$(database)/documents/restaurants/$(incoming().restaurantId));
+      allow update: if isSignedIn() && isValidId(reservationId) && (
+        (isOwner(existing().userId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) && existing().status == 'pending' && incoming().status == 'cancelled' && incoming().updatedAt == request.time) ||
+        (isRestaurantAdmin(existing().restaurantId) && incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']) && incoming().updatedAt == request.time) ||
+        isSuperAdmin()
+      );
+    }
+  }
+}
