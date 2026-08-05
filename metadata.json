@@ -1,8 +1,0 @@
-{
-  "name": "جيبلي - Jibli",
-  "description": "تطبيق مطاعم وتوصيل احترافي موجه للسوق الجزائري بتصميم حديث وفخم",
-  "requestFramePermissions": [
-    "geolocation"
-  ],
-  "majorCapabilities": []
-}
